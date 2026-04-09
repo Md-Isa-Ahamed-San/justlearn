@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="JetClientState">
+    <option name="folders">
+      <list>
+        <folderState>
+          <option name="environmentGroups">
+            <list>
+              <environmentGroupState>
+                <option name="name" value="Default" />
+              </environmentGroupState>
+            </list>
+          </option>
+          <option name="folders">
+            <list>
+              <folderState>
+                <option name="documentation" value="A collection for testing APIs" />
+                <option name="id" value="c5da6e06-dfde-4c18-bdeb-93f5d7e3b5b9" />
+                <option name="name" value="users" />
+                <option name="requests">
+                  <list>
+                    <requestState>
+                      <option name="description" value="/users" />
+                      <option name="id" value="05283711-573b-47e5-82ef-28c092822298" />
+                      <option name="method" value="GET" />
+                      <option name="name" value="Get Users" />
+                      <option name="sortWeight" value="1000000" />
+                      <option name="url" value="https://api.example.com/users" />
+                    </requestState>
+                    <requestState>
+                      <option name="body">
+                        <bodyState>
+                          <option name="raw" value="{&#10;    &quot;name&quot;: &quot;John Doe&quot;,&#10;    &quot;email&quot;: &quot;johndoe@example.com&quot;&#10;}" />
+                          <option name="type" value="PLAIN" />
+                        </bodyState>
+                      </option>
+                      <option name="description" value="/users" />
+                      <option name="headers">
+                        <list>
+                          <headerState>
+                            <option name="key" value="Content-Type" />
+                            <option name="value" value="application/json" />
+                          </headerState>
+                        </list>
+                      </option>
+                      <option name="id" value="961694e1-fc20-4785-910c-43b53fc229c1" />
+                      <option name="method" value="POST" />
+                      <option name="name" value="Create User" />
+                      <option name="sortWeight" value="2000000" />
+                      <option name="url" value="https://api.example.com/users" />
+                    </requestState>
+                    <requestState>
+                      <option name="description" value="/users/:id" />
+                      <option name="id" value="22f34096-b7d8-412e-8d6e-b5e5ee850828" />
+                      <option name="method" value="GET" />
+                      <option name="name" value="Get User by ID" />
+                      <option name="pathVariables">
+                        <list>
+                          <pathVariableState>
+                            <option name="key" value="id" />
+                          </pathVariableState>
+                        </list>
+                      </option>
+                      <option name="sortWeight" value="3000000" />
+                      <option name="url" value="https://api.example.com/users/:id" />
+                    </requestState>
+                    <requestState>
+                      <option name="body">
+                        <bodyState>
+                          <option name="raw" value="{&#10;    &quot;name&quot;: &quot;John Updated&quot;,&#10;    &quot;email&quot;: &quot;johnupdated@example.com&quot;&#10;}" />
+                          <option name="type" value="PLAIN" />
+                        </bodyState>
+                      </option>
+                      <option name="description" value="/users/:id" />
+                      <option name="headers">
+                        <list>
+                          <headerState>
+                            <option name="key" value="Content-Type" />
+                            <option name="value" value="application/json" />
+                          </headerState>
+                        </list>
+                      </option>
+                      <option name="id" value="bad93be2-1bae-4a12-b892-bf95a415417a" />
+                      <option name="method" value="PUT" />
+                      <option name="name" value="Update User" />
+                      <option name="pathVariables">
+                        <list>
+                          <pathVariableState>
+                            <option name="key" value="id" />
+                          </pathVariableState>
+                        </list>
+                      </option>
+                      <option name="sortWeight" value="4000000" />
+                      <option name="url" value="https://api.example.com/users/:id" />
+                    </requestState>
+                    <requestState>
+                      <option name="description" value="/users/:id" />
+                      <option name="id" value="c4516260-febd-412c-b2d8-2bb0a99443e6" />
+                      <option name="method" value="DELETE" />
+                      <option name="name" value="Delete User" />
+                      <option name="sortWeight" value="5000000" />
+                      <option name="url" value="https://api.example.com/users/:id" />
+                    </requestState>
+                  </list>
+                </option>
+                <option name="sortWeight" value="1000000" />
+              </folderState>
+              <folderState>
+                <option name="id" value="e1cfe529-b370-40be-afe7-a7af7e9a2e4d" />
+                <option name="name" value="courses" />
+                <option name="sortWeight" value="2000000" />
+              </folderState>
+            </list>
+          </option>
+          <option name="id" value="77876721-5353-446c-950a-9bafa61edc03" />
+          <option name="name" value="JUSTLearn" />
+          <option name="selectedEnvironmentIds">
+            <map>
+              <entry key="default" />
+            </map>
+          </option>
+          <option name="syncProperties">
+            <synchronizationPropertiesState>
+              <option name="autoSync" value="true" />
+              <option name="folderPath" value="F:\study-material\CSE\Codes\Web-Development\Projects\nextjs-learning-code\JUSTLearn\justlearn-lms\.jetclient" />
+            </synchronizationPropertiesState>
+          </option>
+        </folderState>
+      </list>
+    </option>
+    <option name="id" value="026d0f0d-65a3-4c3f-a500-48c4ec703e00" />
+    <option name="version" value="6" />
+  </component>
+</project>

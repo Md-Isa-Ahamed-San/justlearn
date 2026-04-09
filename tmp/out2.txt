@@ -1,0 +1,19 @@
+Instructors: [
+  {
+    "id": "cmmg91nao0001hhpkqp1nbf7r",
+    "name": "Sk. Shalauddin Kabir",
+    "email": "shalauddin.kabir@just.edu.bd"
+  },
+  {
+    "id": "cmmg99i3p0000hhcwtiuu3kl9",
+    "name": "Atish Kumar Dipongkor",
+    "email": "atish.dipongkor@just.edu.bd"
+  }
+]
+All Courses: [
+  {
+    "id": "cmmgrxnn10001hhcg1qasg6bd",
+    "title": "Web Developement L-1",
+    "userId": "cmmg91nao0001hhpkqp1nbf7r"
+  }
+]

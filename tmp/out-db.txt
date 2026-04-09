@@ -1,0 +1,5 @@
+Total users: 4
+User: atish.dipongkor@just.edu.bd, Role: instructor, Courses: 0, HasInstructorProfile: true, InstructorId: cmmg9cxow0002hhcwhmzwj4p9
+User: isaahmedshan190138@gmail.com, Role: student, Courses: 0, HasInstructorProfile: false, InstructorId: undefined
+User: sadiasilvee45168@gmail.com, Role: student, Courses: 0, HasInstructorProfile: false, InstructorId: undefined
+User: shalauddin.kabir@just.edu.bd, Role: instructor, Courses: 1, HasInstructorProfile: false, InstructorId: undefined

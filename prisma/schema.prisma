@@ -1,0 +1,612 @@
+// prisma/schema.prisma
+
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "windows", "rhel-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Simplified Enums
+enum QuizStatus {
+  draft
+  published
+}
+
+enum WeekStatus {
+  draft
+  published
+}
+
+enum QuestionType {
+  mcq
+  short_answer
+  long_answer
+}
+
+enum AttemptStatus {
+  not_started
+  in_progress
+  completed
+  auto_submitted
+}
+
+enum Role {
+  student
+  instructor
+  admin
+}
+
+enum Visibility {
+  public
+  private
+}
+
+enum QuizGenerationType {
+  manual
+  ai_fixed
+  ai_pool
+}
+
+enum SecurityLevel {
+  low
+  medium
+  high
+}
+
+// Core Tables
+model User {
+  id                   String    @id @default(cuid())
+  name                 String
+  email                String    @unique
+  password             String?
+  provider             String?
+  providerId           String?
+  image                String?
+  role                 Role?
+  resetPasswordToken   String?
+  resetPasswordExpires DateTime?
+  isActive             Boolean   @default(true)
+  isProfileComplete    Boolean   @default(false)
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
+
+  // Relationships
+  instructor       Instructor?       @relation("UserInstructor")
+  student          Student?          @relation("UserStudent")
+  admin            Admin?            @relation("UserAdmin")
+  courses          Course[]          @relation("UserCourses")
+  testimonials     Testimonial[]     @relation("UserTestimonials")
+  quizSubmissions  QuizSubmission[]  @relation("UserQuizSubmissions")
+  createdQuizzes   Quiz[]            @relation("UserCreatedQuizzes")
+  aiGenerationLogs AIGenerationLog[] @relation("UserAILogs")
+  courseProgress   CourseProgress[]  @relation("UserCourseProgress")
+  certificates     Certificate[]     @relation("UserCertificates")
+  userBadges       UserBadge[]
+  comments         Comment[]
+  points           Int               @default(0)
+  reports          Report[]          @relation("UserReports")
+  participations   Participation[]   @relation("UserParticipations")
+  watches          Watch[]           @relation("UserWatches")
+  liveSessions     Live[]            @relation("UserLiveSessions")
+  lessonProgress   LessonProgress[]  @relation("UserLessonProgress")
+
+  @@index([role, isActive])
+  @@index([createdAt])
+}
+
+model Instructor {
+  id          String  @id @default(cuid())
+  idNumber    Int     @unique
+  department  String
+  phone       String?
+  bio         String?
+  designation String?
+  socialMedia Json?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Foreign Key
+  userId String @unique
+
+  // Relationships
+  user User @relation("UserInstructor", fields: [userId], references: [id])
+}
+
+model Student {
+  id             String  @id @default(cuid())
+  idNumber       Int     @unique
+  session        String
+  department     String
+  phone          String?
+  bio            String?
+  profilePicture String?
+  socialMedia    Json?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Foreign Key
+  userId String @unique
+
+  // Relationships
+  user User @relation("UserStudent", fields: [userId], references: [id])
+}
+
+model Admin {
+  id             String  @id @default(cuid())
+  idNumber       Int     @unique
+  department     String
+  phone          String?
+  bio            String?
+  designation    String?
+  profilePicture String?
+  socialMedia    Json?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Foreign Key
+  userId String @unique
+
+  // Relationships
+  user User @relation("UserAdmin", fields: [userId], references: [id])
+}
+
+model Category {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  thumbnail   String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relationships
+  courses Course[]
+}
+
+model Course {
+  id          String     @id @default(cuid())
+  title       String
+  description String
+  thumbnail   String
+  active       Boolean    @default(true)
+  isCompleted  Boolean    @default(false)
+  learning     Json // Array of learning outcomes
+  rating       Float?     @default(0)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  code        String
+  visibility  Visibility
+
+  // Foreign Keys
+  userId     String
+  categoryId String
+
+  // Relationships
+  user            User             @relation("UserCourses", fields: [userId], references: [id])
+  category        Category         @relation(fields: [categoryId], references: [id])
+  weeks           Week[]
+  testimonials    Testimonial[]    @relation("CourseTestimonials")
+  certificates    Certificate[]    @relation("CourseCertificates")
+  quizSubmissions QuizSubmission[] @relation("CourseQuizSubmissions")
+  courseProgress  CourseProgress[] @relation("CourseCourseProgress")
+  reports         Report[]         @relation("CourseReports")
+  participations  Participation[]  @relation("CourseParticipations")
+}
+
+model Week {
+  id          String     @id @default(cuid())
+  title       String
+  description String
+  status      WeekStatus @default(draft)
+  order       Int
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  // Foreign Keys
+  courseId String
+
+  // Relationships
+  course   Course      @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  lessons  Lesson[]
+  watches  Watch[]
+  weekQuiz WeekQuiz[]
+}
+
+// Explicit join table replacing Week.quizIds[] and Quiz.weekIds[]
+model WeekQuiz {
+  id     String @id @default(cuid())
+  weekId String
+  quizId String
+
+  week Week @relation(fields: [weekId], references: [id], onDelete: Cascade)
+  quiz Quiz @relation(fields: [quizId], references: [id], onDelete: Cascade)
+
+  @@unique([weekId, quizId])
+  @@index([weekId])
+  @@index([quizId])
+}
+
+model Quiz {
+  id                       String              @id @default(cuid())
+  title                    String
+  description              String
+  status                   QuizStatus          @default(draft)
+  active                   Boolean             @default(true)
+  generationType           QuizGenerationType? @default(ai_pool)
+  poolSize                 Int?                @default(50)
+  MCQPerStudent            Int?                @default(10)
+  shortQuestionsPerStudent Int?                @default(2)
+  longQuestionsPerStudent  Int?                @default(2)
+
+  aiPrompt               String?
+  aiContextData          Json?
+  aiContextFiles         String[]
+  targetMcqCount         Int?     @default(5)
+  timeLimit              Int?     @default(5)
+  maxAttempts            Int?     @default(1)
+  showResultsImmediately Boolean  @default(true)
+
+  // Simplified Anti-Cheating Settings
+  securityLevel         SecurityLevel @default(medium)
+  enableAntiCheating    Boolean       @default(true)
+  enableFullscreen      Boolean       @default(true)
+  maxViolationsAllowed  Int           @default(2)
+  autoSubmitOnViolation Boolean       @default(true)
+  blockCopyPaste        Boolean       @default(true)
+  blockRightClick       Boolean       @default(true)
+  blockTabSwitching     Boolean       @default(true)
+  blockWindowMinimize   Boolean       @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Foreign Keys
+  createdByUserId String
+
+  // Relationships
+  createdBy        User              @relation("UserCreatedQuizzes", fields: [createdByUserId], references: [id])
+  questions        Question[]
+  submissions      QuizSubmission[]
+  aiGenerationLogs AIGenerationLog[]
+  liveSession      Live?             @relation("QuizLiveSession")
+  weekQuiz         WeekQuiz[]
+
+  @@index([status, active])
+  @@index([createdByUserId, createdAt])
+  @@index([generationType])
+}
+
+model Lesson {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  duration    Int      @default(0)
+  videoUrl    String?  @map("video_url")
+  active      Boolean  @default(false)
+  access      String   @default("private")
+  order       Int      @default(0)
+  attachments Json?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Foreign Keys
+  weekId String
+
+  // Relationships
+  week           Week             @relation(fields: [weekId], references: [id])
+  watches        Watch[]
+  LessonProgress LessonProgress[]
+  comments       Comment[]
+}
+
+model LessonProgress {
+  id          String    @id @default(cuid())
+  status      String    @default("not_started") // not_started, in_progress, completed
+  completedAt DateTime?
+  timeSpent   Int?      @default(0) // in seconds
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  // Foreign Keys
+  userId   String
+  lessonId String
+
+  // Relationships
+  user   User   @relation("UserLessonProgress", fields: [userId], references: [id])
+  lesson Lesson @relation(fields: [lessonId], references: [id])
+
+  @@unique([userId, lessonId])
+  @@index([userId, status])
+}
+
+model Question {
+  id            String       @id @default(cuid())
+  type          QuestionType @default(mcq)
+  text          String
+  image         String?
+  explanation   String?
+  options       Json?
+  correctAnswer Json
+  mark          Int          @default(1)
+  order         Int          @default(0)
+  isFromPool    Boolean      @default(false)
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+
+  // Foreign Keys
+  quizId String
+
+  // Relationships
+  quiz           Quiz            @relation(fields: [quizId], references: [id])
+  studentAnswers StudentAnswer[]
+
+  @@index([quizId, isFromPool])
+  @@index([quizId, order])
+}
+
+model QuizSubmission {
+  id        String    @id @default(cuid())
+  startTime DateTime?
+  endTime   DateTime?
+  maxScore  Float?    @default(0)
+  score     Float?    @default(0)
+
+  attemptNumber    Int    @default(1)
+  timeSpent        Int?
+  submissionReason String @default("Manual submit")
+
+  // Simplified Anti-Cheating Data
+  disconnectionCount    Int     @default(0)
+  isFullscreenSupported Boolean @default(true)
+  totalOfflineCount     Int     @default(0)
+  violations            Json
+  warningCount          Int     @default(0)
+  warningMessage        String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Foreign Keys
+  userId   String
+  quizId   String
+  courseId String
+
+  // Relationships
+  course         Course          @relation("CourseQuizSubmissions", fields: [courseId], references: [id])
+  user           User            @relation("UserQuizSubmissions", fields: [userId], references: [id])
+  quiz           Quiz            @relation(fields: [quizId], references: [id])
+  studentAnswers StudentAnswer[]
+
+  @@index([userId, quizId])
+  @@index([createdAt])
+  @@index([courseId])
+}
+
+model StudentAnswer {
+  id                String   @id @default(cuid())
+  submittedAnswer   Json
+  answerExplanation Json?
+  isCorrect         Boolean  @default(false)
+  marksAwarded      Float    @default(0)
+  timeSpent         Int?     @default(0) // seconds spent on this question
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  // Foreign Keys
+  questionId       String
+  quizSubmissionId String
+
+  // Relationships
+  question       Question       @relation(fields: [questionId], references: [id])
+  quizSubmission QuizSubmission @relation(fields: [quizSubmissionId], references: [id])
+
+  @@index([questionId])
+  @@index([quizSubmissionId])
+}
+
+model AIGenerationLog {
+  id               String   @id @default(cuid())
+  requestType      String
+  prompt           String
+  contextData      Json?
+  response         Json?
+  status           String
+  errorMessage     String?
+  tokensUsed       Int?
+  processingTimeMs Int?
+  createdAt        DateTime @default(now())
+
+  // Foreign Keys
+  quizId            String?
+  requestedByUserId String
+
+  // Relationships
+  quiz        Quiz? @relation(fields: [quizId], references: [id])
+  requestedBy User  @relation("UserAILogs", fields: [requestedByUserId], references: [id])
+}
+
+model CourseProgress {
+  id          String  @id @default(cuid())
+  status      String  @default("not_started") // "not_started", "in_progress", "completed"
+  isCertified Boolean @default(false)
+  progress    Float   @default(0) // 0-100 percentage
+
+  // Course content tracking fields
+  totalWeeks   Int @default(0) // Total weeks in course at time of calculation
+  totalLessons Int @default(0) // Total lessons in course
+  totalQuizzes Int @default(0) // Total quizzes in course
+
+  // User completion tracking fields
+  completedLessons Int @default(0) // Lessons completed by user
+  completedQuizzes Int @default(0) // Quizzes completed by user
+  completedWeeks   Int @default(0) // Weeks fully completed
+
+  // Activity tracking fields
+  lastActivityDate DateTime? // When user last engaged with course
+  completionDate   DateTime? // When course was fully completed
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Foreign Keys
+  userId   String
+  courseId String
+
+  // Relationships
+  user   User   @relation("UserCourseProgress", fields: [userId], references: [id])
+  course Course @relation("CourseCourseProgress", fields: [courseId], references: [id])
+
+  // Indexes for performance
+  @@unique([userId, courseId])
+  @@index([courseId, progress])
+  @@index([status, lastActivityDate])
+}
+
+model Certificate {
+  id              String   @id @default(cuid())
+  certificateLink String
+  snapshotData    Json?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // Foreign Keys
+  userId   String
+  courseId String
+
+  // Relationships
+  user   User   @relation("UserCertificates", fields: [userId], references: [id])
+  course Course @relation("CourseCertificates", fields: [courseId], references: [id])
+}
+
+model Testimonial {
+  id        String   @id @default(cuid())
+  content   String
+  rating    Int?     @default(5)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Foreign Keys
+  userId   String
+  courseId String
+
+  // Relationships
+  user   User   @relation("UserTestimonials", fields: [userId], references: [id])
+  course Course @relation("CourseTestimonials", fields: [courseId], references: [id])
+}
+
+model Report {
+  id                    String   @id @default(cuid())
+  totalCompletedLessons Json
+  totalCompletedModules Json
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  // Foreign Keys
+  courseId String
+  userId   String
+
+  // Relationships
+  course Course @relation("CourseReports", fields: [courseId], references: [id])
+  user   User   @relation("UserReports", fields: [userId], references: [id])
+}
+
+model Participation {
+  id        String   @id @default(cuid())
+  progress  Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Foreign Keys
+  courseId String
+  userId   String
+
+  // Relationships
+  course Course @relation("CourseParticipations", fields: [courseId], references: [id])
+  user   User   @relation("UserParticipations", fields: [userId], references: [id])
+}
+
+model Watch {
+  id        String   @id @default(cuid())
+  state     String   @default("started")
+  lastTime  Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Foreign Keys
+  lessonId String
+  userId   String
+  weekId   String?
+
+  // Relationships
+  lesson Lesson @relation(fields: [lessonId], references: [id])
+  user   User   @relation("UserWatches", fields: [userId], references: [id])
+  week   Week?  @relation(fields: [weekId], references: [id])
+}
+
+model Live {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  thumbnail   String?
+  videoId     String?  @map("video_id")
+  meetLink    String?
+  status      String   @default("scheduled")
+  schedule    DateTime
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Foreign Keys
+  quizId String? @unique
+  userId String
+
+  // Relationships
+  quiz Quiz? @relation("QuizLiveSession", fields: [quizId], references: [id])
+  user User  @relation("UserLiveSessions", fields: [userId], references: [id])
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId   String
+  lessonId String
+  parentId String?
+
+  user     User      @relation(fields: [userId], references: [id])
+  lesson   Lesson    @relation(fields: [lessonId], references: [id])
+  parent   Comment?  @relation("CommentReplies", fields: [parentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  children Comment[] @relation("CommentReplies")
+}
+
+model Badge {
+  id          String   @id @default(cuid())
+  name        String
+  description String
+  icon        String
+  points      Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  userBadges UserBadge[]
+}
+
+model UserBadge {
+  id       String   @id @default(cuid())
+  earnedAt DateTime @default(now())
+
+  userId  String
+  badgeId String
+
+  user  User  @relation(fields: [userId], references: [id])
+  badge Badge @relation(fields: [badgeId], references: [id])
+
+  @@unique([userId, badgeId])
+}

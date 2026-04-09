@@ -1,0 +1,434 @@
+﻿
+> justlearn@0.1.0 build
+> next build
+
+   Γû▓ Next.js 15.3.8
+   - Environments: .env.local, .env
+
+   Creating an optimized production build ...
+ Γ£ô Compiled successfully in 14.0s
+   Linting and checking validity of types ...
+
+./app/(main)/account/progress/page.js
+81:45  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+./app/(main)/student-dashboard/page.js
+164:49  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/app/api-reference/config/eslint#disabling-rules
+   Collecting page data ...
+   Generating static pages (0/20) ...
+   Generating static pages (5/20) 
+inside home page........
+   Generating static pages (10/20) 
+   Generating static pages (15/20) 
+ CourseTable ~ courses: [
+  {
+    id: '6843b2b1d8e4f1a2b3c4d5e4',
+    title: 'Advanced Web Technologies',
+    description: 'A deep dive into system architecture design, web technologies, and code refactoring',
+    thumbnail: 'https://res.cloudinary.com/djyzlmzoe/image/upload/v1750060528/JUSTLearn/f670b928ab1fbb8d527bda9ccdde4436.avif',
+    active: true,
+    learning: [
+      'Understand and identify code smells.',
+      'Apply refactoring techniques effectively.',
+      'Design robust system architectures.'
+    ],
+    rating: 4.9,
+    createdAt: '2025-06-07T09:00:00.000Z',
+    updatedAt: '2025-06-16T15:46:31.021Z',
+    code: 'ACB132',
+    visibility: 'public',
+    userId: '6841eb59e1d6610eebbbc6d9',
+    categoryId: '6843b1a0d8e4f1a2b3c4d5e3',
+    category: {
+      id: '6843b1a0d8e4f1a2b3c4d5e3',
+      title: 'Web & Software Engineering',
+      description: 'Develop skills in software engineering practices, web technologies, and system architecture design.',
+      thumbnail: 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400&h=300&fit=crop',
+      createdAt: '2025-06-07T08:10:00.000Z',
+      updatedAt: '2025-06-07T08:10:00.000Z'
+    },
+    user: {
+      id: '6841eb59e1d6610eebbbc6d9',
+      name: 'Atish Kumar Dipongkor',
+      email: 'atish.dipongkor@just.edu.bd',
+      role: 'instructor',
+      isActive: true,
+      instructor: [Object]
+    }
+  },
+  {
+    id: '6843b2b1d8e4f1a2b3c4d5e5',
+    title: 'Foundations of Machine Learning',
+    description: 'Learn the fundamentals of Machine Learning, Image Processing, and AI from scratch.',
+    thumbnail: 'https://images.unsplash.com/photo-1599058917212-d750089bc07e?w=600&h=400&fit=crop',
+    active: true,
+    learning: [
+      'Grasp core concepts of Machine Learning.',
+      'Understand basic Image Processing techniques.',
+      'Build simple AI models.'
+    ],
+    rating: 4.8,
+    createdAt: '2025-06-07T09:15:00.000Z',
+    updatedAt: '2025-06-11T18:47:00.431Z',
+    code: 'ZXY142',
+    visibility: 'public',
+    userId: '6842941a7c0f28784f68f553',
+    categoryId: '6843b1a0d8e4f1a2b3c4d5e2',
+    category: {
+      id: '6843b1a0d8e4f1a2b3c4d5e2',
+      title: 'Artificial Intelligence & Machine Learning',
+      description: 'Explore the frontiers of AI, from machine learning basics to advanced deep learning applications.',
+      thumbnail: 'https://images.unsplash.com/photo-1555255707-c07966088b7b?w=400&h=300&fit=crop',
+      createdAt: '2025-06-07T08:05:00.000Z',
+      updatedAt: '2025-06-07T08:05:00.000Z'
+    },
+    user: {
+      id: '6842941a7c0f28784f68f553',
+      name: 'Sk. Shalauddin Kabir',
+      email: 'shalauddin.kabir@just.edu.bd',
+      role: 'instructor',
+      isActive: true,
+      instructor: [Object]
+    }
+  },
+  {
+    id: '6843b2b1d8e4f1a2b3c4d5e6',
+    title: 'Networking and Data Mining Essentials',
+    description: 'Covering Networking, Data Mining, SDN, IoT, and Cloud Computing security issues.',
+    thumbnail: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&h=400&fit=crop',
+    active: true,
+    learning: [
+      'Understand modern networking principles.',
+      'Apply data mining techniques to large datasets.',
+      'Identify security issues in cloud and IoT environments.'
+    ],
+    rating: 4.7,
+    createdAt: '2025-06-07T09:30:00.000Z',
+    updatedAt: '2025-06-07T09:30:00.000Z',
+    code: 'YSX528',
+    visibility: 'public',
+    userId: '6841ecef078feeafe77f45a5',
+    categoryId: '6843b1a0d8e4f1a2b3c4d5e1',
+    category: {
+      id: '6843b1a0d8e4f1a2b3c4d5e1',
+      title: 'Computer Science Foundations',
+      description: 'Core concepts in computer science including programming, algorithms, and data structures.',
+      thumbnail: 'https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?w=400&h=300&fit=crop',
+      createdAt: '2025-06-07T08:00:00.000Z',
+      updatedAt: '2025-06-07T08:00:00.000Z'
+    },
+    user: {
+      id: '6841ecef078feeafe77f45a5',
+      name: 'Mohammad Nowsin Amin Sheikh',
+      email: 'nowsin.sheikh@just.edu.bd',
+      role: 'instructor',
+      isActive: true,
+      instructor: [Object]
+    }
+  },
+  {
+    id: '684c40bdc4bc2d50abd349ea',
+    title: 'web developement',
+    description: 'web development is a good things',
+    thumbnail: 'https://res.cloudinary.com/djyzlmzoe/image/upload/v1733314350/group-study-review/your-assignment-rubber-stamp-grunge-design-dust-scratches-effects-can-be-easily-removed-clean-crisp-look-color-88047386.webp',
+    active: true,
+    learning: [ 'web basic' ],
+    rating: 0,
+    createdAt: '2025-06-13T15:16:13.327Z',
+    updatedAt: '2025-07-07T11:29:45.747Z',
+    code: 'Web-991',
+    visibility: 'public',
+    userId: '6841eb59e1d6610eebbbc6d9',
+    categoryId: '6843b1a0d8e4f1a2b3c4d5e3',
+    category: {
+      id: '6843b1a0d8e4f1a2b3c4d5e3',
+      title: 'Web & Software Engineering',
+      description: 'Develop skills in software engineering practices, web technologies, and system architecture design.',
+      thumbnail: 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400&h=300&fit=crop',
+      createdAt: '2025-06-07T08:10:00.000Z',
+      updatedAt: '2025-06-07T08:10:00.000Z'
+    },
+    user: {
+      id: '6841eb59e1d6610eebbbc6d9',
+      name: 'Atish Kumar Dipongkor',
+      email: 'atish.dipongkor@just.edu.bd',
+      role: 'instructor',
+      isActive: true,
+      instructor: [Object]
+    }
+  },
+  {
+    id: '686bd330132d72f488155d02',
+    title: 'Foundation of Web Development.',
+    description: 'This course offers a foundational overview of web development, covering both front-end and back-end basics. Key topics include HTML, CSS, JavaScript, Git, and web hosting. By the end, learners will understand how the web works and be able to build simple, responsive websites.',
+    thumbnail: 'https://res.cloudinary.com/djyzlmzoe/image/upload/v1751897135/JUSTLearn/c91d9163d9be492070da6595d62b7856.png',
+    active: true,
+    learning: [
+      'Understand Core Web Technologies.',
+      'Build Responsive Web Pages.',
+      'Apply Version Control with Git.',
+      'Deploy Basic Web Projects.'
+    ],
+    rating: 0,
+    createdAt: '2025-07-07T14:01:20.060Z',
+    updatedAt: '2025-11-15T18:40:59.551Z',
+    code: 'CSE-3210',
+    visibility: 'public',
+    userId: '6842941a7c0f28784f68f553',
+    categoryId: '6843b1a0d8e4f1a2b3c4d5e3',
+    category: {
+      id: '6843b1a0d8e4f1a2b3c4d5e3',
+      title: 'Web & Software Engineering',
+      description: 'Develop skills in software engineering practices, web technologies, and system architecture design.',
+      thumbnail: 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400&h=300&fit=crop',
+      createdAt: '2025-06-07T08:10:00.000Z',
+      updatedAt: '2025-06-07T08:10:00.000Z'
+    },
+    user: {
+      id: '6842941a7c0f28784f68f553',
+      name: 'Sk. Shalauddin Kabir',
+      email: 'shalauddin.kabir@just.edu.bd',
+      role: 'instructor',
+      isActive: true,
+      instructor: [Object]
+    }
+  }
+]
+ CourseTable ~ courses: [
+  {
+    id: '6843b2b1d8e4f1a2b3c4d5e4',
+    title: 'Advanced Web Technologies',
+    description: 'A deep dive into system architecture design, web technologies, and code refactoring',
+    thumbnail: 'https://res.cloudinary.com/djyzlmzoe/image/upload/v1750060528/JUSTLearn/f670b928ab1fbb8d527bda9ccdde4436.avif',
+    active: true,
+    learning: [
+      'Understand and identify code smells.',
+      'Apply refactoring techniques effectively.',
+      'Design robust system architectures.'
+    ],
+    rating: 4.9,
+    createdAt: '2025-06-07T09:00:00.000Z',
+    updatedAt: '2025-06-16T15:46:31.021Z',
+    code: 'ACB132',
+    visibility: 'public',
+    userId: '6841eb59e1d6610eebbbc6d9',
+    categoryId: '6843b1a0d8e4f1a2b3c4d5e3',
+    category: {
+      id: '6843b1a0d8e4f1a2b3c4d5e3',
+      title: 'Web & Software Engineering',
+      description: 'Develop skills in software engineering practices, web technologies, and system architecture design.',
+      thumbnail: 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400&h=300&fit=crop',
+      createdAt: '2025-06-07T08:10:00.000Z',
+      updatedAt: '2025-06-07T08:10:00.000Z'
+    },
+    user: {
+      id: '6841eb59e1d6610eebbbc6d9',
+      name: 'Atish Kumar Dipongkor',
+      email: 'atish.dipongkor@just.edu.bd',
+      role: 'instructor',
+      isActive: true,
+      instructor: [Object]
+    }
+  },
+  {
+    id: '6843b2b1d8e4f1a2b3c4d5e5',
+    title: 'Foundations of Machine Learning',
+    description: 'Learn the fundamentals of Machine Learning, Image Processing, and AI from scratch.',
+    thumbnail: 'https://images.unsplash.com/photo-1599058917212-d750089bc07e?w=600&h=400&fit=crop',
+    active: true,
+    learning: [
+      'Grasp core concepts of Machine Learning.',
+      'Understand basic Image Processing techniques.',
+      'Build simple AI models.'
+    ],
+    rating: 4.8,
+    createdAt: '2025-06-07T09:15:00.000Z',
+    updatedAt: '2025-06-11T18:47:00.431Z',
+    code: 'ZXY142',
+    visibility: 'public',
+    userId: '6842941a7c0f28784f68f553',
+    categoryId: '6843b1a0d8e4f1a2b3c4d5e2',
+    category: {
+      id: '6843b1a0d8e4f1a2b3c4d5e2',
+      title: 'Artificial Intelligence & Machine Learning',
+      description: 'Explore the frontiers of AI, from machine learning basics to advanced deep learning applications.',
+      thumbnail: 'https://images.unsplash.com/photo-1555255707-c07966088b7b?w=400&h=300&fit=crop',
+      createdAt: '2025-06-07T08:05:00.000Z',
+      updatedAt: '2025-06-07T08:05:00.000Z'
+    },
+    user: {
+      id: '6842941a7c0f28784f68f553',
+      name: 'Sk. Shalauddin Kabir',
+      email: 'shalauddin.kabir@just.edu.bd',
+      role: 'instructor',
+      isActive: true,
+      instructor: [Object]
+    }
+  },
+  {
+    id: '6843b2b1d8e4f1a2b3c4d5e6',
+    title: 'Networking and Data Mining Essentials',
+    description: 'Covering Networking, Data Mining, SDN, IoT, and Cloud Computing security issues.',
+    thumbnail: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&h=400&fit=crop',
+    active: true,
+    learning: [
+      'Understand modern networking principles.',
+      'Apply data mining techniques to large datasets.',
+      'Identify security issues in cloud and IoT environments.'
+    ],
+    rating: 4.7,
+    createdAt: '2025-06-07T09:30:00.000Z',
+    updatedAt: '2025-06-07T09:30:00.000Z',
+    code: 'YSX528',
+    visibility: 'public',
+    userId: '6841ecef078feeafe77f45a5',
+    categoryId: '6843b1a0d8e4f1a2b3c4d5e1',
+    category: {
+      id: '6843b1a0d8e4f1a2b3c4d5e1',
+      title: 'Computer Science Foundations',
+      description: 'Core concepts in computer science including programming, algorithms, and data structures.',
+      thumbnail: 'https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?w=400&h=300&fit=crop',
+      createdAt: '2025-06-07T08:00:00.000Z',
+      updatedAt: '2025-06-07T08:00:00.000Z'
+    },
+    user: {
+      id: '6841ecef078feeafe77f45a5',
+      name: 'Mohammad Nowsin Amin Sheikh',
+      email: 'nowsin.sheikh@just.edu.bd',
+      role: 'instructor',
+      isActive: true,
+      instructor: [Object]
+    }
+  },
+  {
+    id: '684c40bdc4bc2d50abd349ea',
+    title: 'web developement',
+    description: 'web development is a good things',
+    thumbnail: 'https://res.cloudinary.com/djyzlmzoe/image/upload/v1733314350/group-study-review/your-assignment-rubber-stamp-grunge-design-dust-scratches-effects-can-be-easily-removed-clean-crisp-look-color-88047386.webp',
+    active: true,
+    learning: [ 'web basic' ],
+    rating: 0,
+    createdAt: '2025-06-13T15:16:13.327Z',
+    updatedAt: '2025-07-07T11:29:45.747Z',
+    code: 'Web-991',
+    visibility: 'public',
+    userId: '6841eb59e1d6610eebbbc6d9',
+    categoryId: '6843b1a0d8e4f1a2b3c4d5e3',
+    category: {
+      id: '6843b1a0d8e4f1a2b3c4d5e3',
+      title: 'Web & Software Engineering',
+      description: 'Develop skills in software engineering practices, web technologies, and system architecture design.',
+      thumbnail: 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400&h=300&fit=crop',
+      createdAt: '2025-06-07T08:10:00.000Z',
+      updatedAt: '2025-06-07T08:10:00.000Z'
+    },
+    user: {
+      id: '6841eb59e1d6610eebbbc6d9',
+      name: 'Atish Kumar Dipongkor',
+      email: 'atish.dipongkor@just.edu.bd',
+      role: 'instructor',
+      isActive: true,
+      instructor: [Object]
+    }
+  },
+  {
+    id: '686bd330132d72f488155d02',
+    title: 'Foundation of Web Development.',
+    description: 'This course offers a foundational overview of web development, covering both front-end and back-end basics. Key topics include HTML, CSS, JavaScript, Git, and web hosting. By the end, learners will understand how the web works and be able to build simple, responsive websites.',
+    thumbnail: 'https://res.cloudinary.com/djyzlmzoe/image/upload/v1751897135/JUSTLearn/c91d9163d9be492070da6595d62b7856.png',
+    active: true,
+    learning: [
+      'Understand Core Web Technologies.',
+      'Build Responsive Web Pages.',
+      'Apply Version Control with Git.',
+      'Deploy Basic Web Projects.'
+    ],
+    rating: 0,
+    createdAt: '2025-07-07T14:01:20.060Z',
+    updatedAt: '2025-11-15T18:40:59.551Z',
+    code: 'CSE-3210',
+    visibility: 'public',
+    userId: '6842941a7c0f28784f68f553',
+    categoryId: '6843b1a0d8e4f1a2b3c4d5e3',
+    category: {
+      id: '6843b1a0d8e4f1a2b3c4d5e3',
+      title: 'Web & Software Engineering',
+      description: 'Develop skills in software engineering practices, web technologies, and system architecture design.',
+      thumbnail: 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400&h=300&fit=crop',
+      createdAt: '2025-06-07T08:10:00.000Z',
+      updatedAt: '2025-06-07T08:10:00.000Z'
+    },
+    user: {
+      id: '6842941a7c0f28784f68f553',
+      name: 'Sk. Shalauddin Kabir',
+      email: 'shalauddin.kabir@just.edu.bd',
+      role: 'instructor',
+      isActive: true,
+      instructor: [Object]
+    }
+  }
+]
+ Γ£ô Generating static pages (20/20)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                                                        Size  First Load JS
+Γöî ╞Æ /                                                           1.78 kB         112 kB
+Γö£ ╞Æ /_not-found                                                   186 B         102 kB
+Γö£ ╞Æ /account                                                    8.97 kB         160 kB
+Γö£ ╞Æ /account/certificates                                         175 B         105 kB
+Γö£ ╞Æ /account/enrolled-courses                                   2.67 kB         121 kB
+Γö£ ╞Æ /account/progress                                           2.67 kB         116 kB
+Γö£ ╞Æ /admin-dashboard                                            10.7 kB         161 kB
+Γö£ ╞Æ /api/ai/tutor                                                 193 B         102 kB
+Γö£ ╞Æ /api/auth/[...nextauth]                                       193 B         102 kB
+Γö£ ╞Æ /api/category                                                 193 B         102 kB
+Γö£ ╞Æ /api/checkProfileCompletion                                   193 B         102 kB
+Γö£ ╞Æ /api/courses/[id]                                             193 B         102 kB
+Γö£ ╞Æ /api/participation                                            193 B         102 kB
+Γö£ ╞Æ /api/question                                                 193 B         102 kB
+Γö£ ╞Æ /api/question/[questionId]                                    193 B         102 kB
+Γö£ ╞Æ /api/quiz                                                     193 B         102 kB
+Γö£ ╞Æ /api/quiz/[quizId]                                            193 B         102 kB
+Γö£ ╞Æ /api/quiz/[quizId]/questions/bulk                             193 B         102 kB
+Γö£ ╞Æ /api/quiz/groq                                                193 B         102 kB
+Γö£ ╞Æ /api/register                                                 193 B         102 kB
+Γö£ ╞Æ /api/users                                                    193 B         102 kB
+Γö£ ╞Æ /api/users/[email]                                            193 B         102 kB
+Γö£ ╞Æ /api/week                                                     193 B         102 kB
+Γö£ ╞Æ /api/week/[weekId]                                            193 B         102 kB
+Γö£ ╞Æ /courses                                                    7.38 kB         157 kB
+Γö£ ╞Æ /courses/[id]                                               21.4 kB         170 kB
+Γö£ ╞Æ /courses/[id]/quiz-participation/[quizId]                     16 kB         138 kB
+Γö£ ╞Æ /courses/[id]/quizResult/[quizId]                           2.99 kB         116 kB
+Γö£ ╞Æ /googleRedirect/callback                                      193 B         102 kB
+Γö£ ╞Æ /instructor-dashboard                                       3.79 kB         113 kB
+Γö£ ╞Æ /instructor-dashboard/courses                               5.98 kB         161 kB
+Γö£ ╞Æ /instructor-dashboard/courses/[courseId]                    45.9 kB         217 kB
+Γö£ ╞Æ /instructor-dashboard/courses/[courseId]/allJoinedStudents  11.1 kB         176 kB
+Γö£ ╞Æ /instructor-dashboard/courses/[courseId]/quizList           7.36 kB         168 kB
+Γö£ ╞Æ /instructor-dashboard/courses/[courseId]/reviews            3.93 kB         159 kB
+Γö£ ╞Æ /instructor-dashboard/courses/[courseId]/week/[weekId]        15 kB         192 kB
+Γö£ ╞Æ /instructor-dashboard/courses/add                            4.5 kB         179 kB
+Γö£ ╞Æ /instructor-dashboard/lives                                 4.76 kB         160 kB
+Γö£ ╞Æ /instructor-dashboard/lives/[liveId]                         4.9 kB         192 kB
+Γö£ ╞Æ /instructor-dashboard/lives/add                             4.73 kB         192 kB
+Γö£ ╞Æ /instructor-dashboard/quiz-sets                              5.4 kB         160 kB
+Γö£ ╞Æ /instructor-dashboard/quiz-sets/[quizSetId]                 21.9 kB         201 kB
+Γö£ ╞Æ /instructor-dashboard/quiz-sets/add                         5.17 kB         182 kB
+Γö£ ╞Æ /login                                                      1.52 kB         205 kB
+Γö£ ╞Æ /register                                                   1.43 kB         202 kB
+Γö£ ╞Æ /roleSelection                                                193 B         102 kB
+Γöö ╞Æ /student-dashboard                                          2.67 kB         116 kB
++ First Load JS shared by all                                    102 kB
+  Γö£ chunks/1684-812809f518ed9ca6.js                             46.4 kB
+  Γö£ chunks/4bd1b696-34815dbe6cc7ad29.js                         53.2 kB
+  Γöö other shared chunks (total)                                 2.09 kB
+
+
+╞Æ Middleware                                                    91.3 kB
+
+╞Æ  (Dynamic)  server-rendered on demand
+

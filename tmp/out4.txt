@@ -1,0 +1,68 @@
+SUCCESS: [
+  {
+    "id": "cmmgrxnn10001hhcg1qasg6bd",
+    "title": "Web Developement L-1",
+    "description": "You will lean MERN stack basic",
+    "thumbnail": "https://res.cloudinary.com/djyzlmzoe/image/upload/v1772954527/JUSTLearn/3b7977beedfd76c038270e46029cdeca.avif",
+    "active": false,
+    "learning": [
+      "You will Learn HTML",
+      "You will Learn CSS",
+      "You will Learn JAVASCRIPT",
+      "You will Learn REACT",
+      "You will Learn EXPRESS.JS",
+      "You will Learn MONGODB"
+    ],
+    "rating": 0,
+    "createdAt": "2026-03-07T20:26:40.237Z",
+    "updatedAt": "2026-03-08T07:23:07.499Z",
+    "code": "Web-001",
+    "visibility": "private",
+    "userId": "cmmg91nao0001hhpkqp1nbf7r",
+    "categoryId": "cmmgrrhdd0001hhlw5m74la74",
+    "category": {
+      "id": "cmmgrrhdd0001hhlw5m74la74",
+      "title": "Web Development",
+      "description": "Frontend and Backend development, covering React, Node.js, Next.js, and databases.",
+      "thumbnail": "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800&q=80"
+    },
+    "user": {
+      "id": "cmmg91nao0001hhpkqp1nbf7r",
+      "name": "Sk. Shalauddin Kabir",
+      "email": "shalauddin.kabir@just.edu.bd",
+      "role": "instructor",
+      "image": null,
+      "instructor": null
+    },
+    "weeks": [
+      {
+        "id": "cmmheqz780001hhosaww37ib6",
+        "title": "Introduction of HTML",
+        "description": "This week you will learn about HTML5",
+        "status": "published",
+        "order": 1,
+        "createdAt": "2026-03-08T07:05:19.793Z",
+        "updatedAt": "2026-03-08T07:10:51.142Z",
+        "courseId": "cmmgrxnn10001hhcg1qasg6bd",
+        "lessons": [
+          {
+            "id": "cmmhewvmu0003hhosvmtv4ctm",
+            "title": "HTML basic",
+            "duration": 0,
+            "order": 1
+          }
+        ]
+      }
+    ],
+    "testimonials": [],
+    "_count": {
+      "testimonials": 0,
+      "participations": 0,
+      "courseProgress": 0,
+      "certificates": 0
+    },
+    "totalStudents": 0,
+    "studentsWithProgress": 0,
+    "averageRating": 0
+  }
+]

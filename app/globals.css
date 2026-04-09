@@ -1,0 +1,178 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+:root {
+  --background: 260 40% 95%; /* #f2effc */
+  --foreground: 243.16 13.67% 27.25%; /* #3e3e4a */
+  --card: 0 0% 100%; /* #ffffff */
+  --card-foreground: 243.16 13.67% 27.25%; /* #3e3e4a */
+  --popover: 0 0% 100%; /* #ffffff */
+  --popover-foreground: 243.16 13.67% 27.25%; /* #3e3e4a */
+  --primary: 260.40 22.94% 57.25%; /* #8273c7 */
+  --primary-foreground: 260 23.08% 97.45%; /* #f8f7fc */
+  --secondary: 258.95 33.33% 88.82%; /* #d3ccf0 */
+  --secondary-foreground: 243.16 13.67% 27.25%; /* #3e3e4a */
+  --muted: 258.00 15.15% 87.06%; /* #d7d4e3 */
+  --muted-foreground: 247.50 10.34% 45.49%; /* #6c6c7c */
+  --accent: 342.46 56.52% 77.45%; /* #eb90a8 */
+  --accent-foreground: 343.45 23.97% 23.73%; /* #4b2832 */
+  --destructive: 0 62.19% 60.59%; /* #e53e3e */
+  --destructive-foreground: 260 23.08% 97.45%; /* #f8f7fc */
+  --border: 258.75 17.39% 81.96%; /* #c6c2d3 */
+  --input: 260.00 23.08% 92.35%; /* #e7e4f2 */
+  --ring: 260.40 22.94% 57.25%; /* #8273c7 */
+  --chart-1: 260.40 22.94% 57.25%; /* #8273c7 */
+  --chart-2: 342.46 56.52% 77.45%; /* #eb90a8 */
+  --chart-3: 158.77 31.40% 59.41%; /* #69c289 */
+  --chart-4: 35.76 76.74% 74.71%; /* #f7ac55 */
+  --chart-5: 215.82 54.47% 75.88%; /* #5bcaf7 */
+  --sidebar: 260.00 23.08% 94.90%; /* #efecf7 */
+  --sidebar-foreground: 243.16 13.67% 27.25%; /* #3e3e4a */
+  --sidebar-primary: 260.40 22.94% 57.25%; /* #8273c7 */
+  --sidebar-primary-foreground: 260 23.08% 97.45%; /* #f8f7fc */
+  --sidebar-accent: 342.46 56.52% 77.45%; /* #eb90a8 */
+  --sidebar-accent-foreground: 343.45 23.97% 23.73%; /* #4b2832 */
+  --sidebar-border: 261.43 18.42% 85.10%; /* #cdc8dd */
+  --sidebar-ring: 260.40 22.94% 57.25%; /* #8273c7 */
+  --font-sans: Geist, sans-serif;
+  --font-serif: "Lora", Georgia, serif;
+  --font-mono: "Fira Code", "Courier New", monospace;
+  --radius: 0.5rem;
+  --shadow-2xs: 1px 2px 5px 1px hsl(0 0% 0% / 0.03);
+  --shadow-xs: 1px 2px 5px 1px hsl(0 0% 0% / 0.03);
+  --shadow-sm: 1px 2px 5px 1px hsl(0 0% 0% / 0.06), 1px 1px 2px 0px hsl(0 0% 0% / 0.06);
+  --shadow: 1px 2px 5px 1px hsl(0 0% 0% / 0.06), 1px 1px 2px 0px hsl(0 0% 0% / 0.06);
+  --shadow-md: 1px 2px 5px 1px hsl(0 0% 0% / 0.06), 1px 2px 4px 0px hsl(0 0% 0% / 0.06);
+  --shadow-lg: 1px 2px 5px 1px hsl(0 0% 0% / 0.06), 1px 4px 6px 0px hsl(0 0% 0% / 0.06);
+  --shadow-xl: 1px 2px 5px 1px hsl(0 0% 0% / 0.06), 1px 8px 10px 0px hsl(0 0% 0% / 0.06);
+  --shadow-2xl: 1px 2px 5px 1px hsl(0 0% 0% / 0.15);
+}
+
+.dark {
+  --background: 250.91 18.64% 18%; /* #262739 */
+  --foreground: 250.00 36.00% 90.20%; /* #d1d7f7 */
+  --card: 251.25 20% 15.69%; /* #21223a */
+  --card-foreground: 250.00 36.00% 90.20%; /* #d1d7f7 */
+  --popover: 251.25 20% 15.69%; /* #21223a */
+  --popover-foreground: 250.00 36.00% 90.20%; /* #d1d7f7 */
+  --primary: 263.08 32.50% 68.63%; /* #a399e8 */
+  --primary-foreground: 250.91 18.64% 11.57%; /* #191a29 */
+  --secondary: 254.48 14.87% 38.24%; /* #4f5178 */
+  --secondary-foreground: 250.00 36.00% 90.20%; /* #d1d7f7 */
+  --muted: 254.12 20.99% 15.88%; /* #21223a */
+  --muted-foreground: 258.95 10.38% 64.12%; /* #9a9cc0 */
+  --accent: 271.76 15.60% 21.37%; /* #312944 */
+  --accent-foreground: 345.52 69.05% 83.53%; /* #f792ad */
+  --destructive: 0 68.67% 67.45%; /* #fb5454 */
+  --destructive-foreground: 250.91 18.64% 11.57%; /* #191a29 */
+  --border: 252 18.52% 21.18%; /* #2d2e4c */
+  --input: 249.47 19.59% 19.02%; /* #292b48 */
+  --ring: 263.08 32.50% 68.63%; /* #a399e8 */
+  --chart-1: 263.08 32.50% 68.63%; /* #a399e8 */
+  --chart-2: 345.52 69.05% 83.53%; /* #f792ad */
+  --chart-3: 158.77 31.40% 59.41%; /* #69c289 */
+  --chart-4: 35.76 76.74% 74.71%; /* #f7ac55 */
+  --chart-5: 215.82 54.47% 75.88%; /* #5bcaf7 */
+  --sidebar: 252 20.00% 9.80%; /* #161728 */
+  --sidebar-foreground: 250.00 36.00% 90.20%; /* #d1d7f7 */
+  --sidebar-primary: 263.08 32.50% 68.63%; /* #a399e8 */
+  --sidebar-primary-foreground: 250.91 18.64% 11.57%; /* #191a29 */
+  --sidebar-accent: 271.76 15.60% 21.37%; /* #312944 */
+  --sidebar-accent-foreground: 345.52 69.05% 83.53%; /* #f792ad */
+  --sidebar-border: 249.47 19.59% 19.02%; /* #292b48 */
+  --sidebar-ring: 263.08 32.50% 68.63%; /* #a399e8 */
+  --font-sans: Geist, sans-serif;
+  --font-serif: "Lora", Georgia, serif;
+  --font-mono: "Fira Code", "Courier New", monospace;
+  --radius: 0.5rem;
+  --shadow-2xs: 1px 2px 5px 1px hsl(0 0% 0% / 0.03);
+  --shadow-xs: 1px 2px 5px 1px hsl(0 0% 0% / 0.03);
+  --shadow-sm: 1px 2px 5px 1px hsl(0 0% 0% / 0.06), 1px 1px 2px 0px hsl(0 0% 0% / 0.06);
+  --shadow: 1px 2px 5px 1px hsl(0 0% 0% / 0.06), 1px 1px 2px 0px hsl(0 0% 0% / 0.06);
+  --shadow-md: 1px 2px 5px 1px hsl(0 0% 0% / 0.06), 1px 2px 4px 0px hsl(0 0% 0% / 0.06);
+  --shadow-lg: 1px 2px 5px 1px hsl(0 0% 0% / 0.06), 1px 4px 6px 0px hsl(0 0% 0% / 0.06);
+  --shadow-xl: 1px 2px 5px 1px hsl(0 0% 0% / 0.06), 1px 8px 10px 0px hsl(0 0% 0% / 0.06);
+  --shadow-2xl: 1px 2px 5px 1px hsl(0 0% 0% / 0.15);
+}
+}
+
+@layer base {
+  html,
+  body,
+  :root {
+    @apply h-full;
+  }
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground text-xs sm:text-sm lg:text-base font-inter;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-bold font-poppins;
+  }
+
+  /* Better placeholder text contrast */
+  input::placeholder,
+  textarea::placeholder {
+    color: hsl(var(--primary) / 0.6) !important;
+    opacity: 1;
+  }
+
+  /* Select placeholder styling */
+  [data-placeholder] {
+    color: hsl(var(--primary) / 0.6) !important;
+  }
+
+  /* Light mode placeholder improvements */
+  :root input::placeholder,
+  :root textarea::placeholder {
+    color: hsl(260.40 22.94% 40%) !important; /* Darker purple for better contrast */
+  }
+
+  /* Dark mode placeholder improvements */
+  .dark input::placeholder,
+  .dark textarea::placeholder {
+    color: hsl(263.08 32.50% 75%) !important; /* Lighter purple for dark mode */
+  }
+
+  /* Select component improvements */
+  [data-radix-select-trigger][data-placeholder] {
+    color: hsl(var(--muted-foreground)) !important;
+  }
+
+  /* Ensure existing text in inputs remains visible */
+  input:not(:placeholder-shown),
+  textarea:not(:placeholder-shown) {
+    color: hsl(var(--foreground)) !important;
+  }
+}
+
+@layer components {
+  .grainy {
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwBAMAAAClLOS0AAAAElBMVEUAAAD8/vz08vT09vT8+vzs7uxH16TeAAAAAXRSTlMAQObYZgAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAuFJREFUOI0Vk+3NLiEIRG1B8ClAYAsQ2AIEt4D9ePtv5Xp/mZgYJ2fOFJKEfInkVWY2aglmQFkimRTV7MblYyVqD7HXyhKsSuPX12MeDhRHLtGvRG+P+B/S0Vu4OswR9tmvwNPyhdCDbVayJGads/WiUWcjCvCnruTBNHS9gmX2VzVbk7ZvB1gb1hkWFGl+A/n+/FowcO34U/XvKqZ/fHY+6vgRfU92XrOBUbGeeDfQmjWjdrK+frc6FdGReQhfSF5JvR29O2QrfNw1huTwlgsyXLo0u+5So82sgv7tsFZR2nxB6lXiquHrfD8nfYZ9SeT0LiuvSoVrxGY16pCNRZKqvwWsn5OHypPBELzohMCaRaa0ceTHYqe7X/gfJEEtKFbJpWoNqO+aS1cuTykGPpK5Ga48m6L3NefTr013KqYBQu929iP1oQ/7UwSR+i3zqruUmT84qmhzLpxyj7pr9kg7LKvqaXxZmdpn+6o8sHqSqojy02gU3U8q9PnpidiaLks0mbMYz+q2uVXsoBQ8bfURULYxRgZVYCHMv9F4OA7qxT2NPPpvGQ/sTDH2yznKh7E2AcErfcNsaIoN1izzbJiaY63x4QjUFdBSvDCvugPpu5xDny0jzEeuUQbcP1aGT9V90uixngTRLYNEIIZ6yOF1H8tm7rj2JxiefsVy53zGVy3ag5uuPsdufYOzYxLRxngKe7nhx3VAq54pmz/DK9/Q3aDam2Yt3hNXB4HuU87jKNd/CKZn77Qdn5QkXPfqSkhk7hGOXXB+7v09KbBbqdvxGqa0AqfK/atIrL2WXdAgXAJ43Wtwe/aIoacXezeGPMlhDOHDbSfHnaXsL2QzbT82GRwZuezdwcoWzx5pnOnGMUdHuiY7lhdyWzWiHnucLZQxYStMJbtcydHaQ6vtMbe0AcDbxG+QG14AL94xry4297xpy9Cpf1OoxZ740gHDfrK+gtsy0xabwJmfgtCeii79B6aj0SJeLbd7AAAAAElFTkSuQmCC);
+  }
+}
+
+/* This duplicate @layer base was in the original, merging its content where appropriate or removing if redundant.
+   The rules `* { @apply border-border; }` and `body { @apply bg-background text-foreground; }`
+   are already present or covered in the first @layer base.
+*/
+/*
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+*/
