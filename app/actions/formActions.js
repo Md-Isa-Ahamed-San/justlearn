@@ -1,5 +1,5 @@
 'use server';
-import { revalidatePath } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 import { db } from '../../lib/prisma';
 
 export async function handlePersonalDetails(formData) {
@@ -161,6 +161,7 @@ export async function handlePersonalDetails(formData) {
   }
 
   revalidatePath("/account");
+  revalidateTag("user-data");
 
   return { success: true };
 }

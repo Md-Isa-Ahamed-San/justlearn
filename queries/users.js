@@ -1,6 +1,8 @@
 import { auth } from "@/auth";
 import bcrypt from "bcryptjs";
 import { db } from "../lib/prisma";
+import { unstable_cache } from "next/cache";
+import { cache } from "react";
 
 // Helper function to get include options based on role
 const getIncludeByRole = (role) => {
@@ -27,7 +29,7 @@ const getIncludeByRole = (role) => {
 // =================== BASIC USER OPERATIONS ===================
 
 // MARK: Get server user data
-export async function getServerUserData() {
+export const getServerUserData = cache(async function getServerUserData() {
   try {
     const session = await auth();
 
@@ -47,7 +49,7 @@ export async function getServerUserData() {
     console.error("Error fetching server user data:", error);
     return null;
   }
-}
+});
 //MARK: POST USER
 export const postUser = async (data) => {
   try {
@@ -274,45 +276,52 @@ export const getUser = async (id) => {
 };
 
 // MARK: Get user by email
-export const getUserByEmail = async (email) => {
-  try {
-    // Fetch user with all potential role-based relations in a single query
-    const user = await db.user.findUnique({
-      where: { email },
-      include: {
-        student: true,
-        instructor: true,
-        admin: true,
-      },
-    });
+export const getUserByEmail = unstable_cache(
+  async (email) => {
+    try {
+      // Fetch user with all potential role-based relations in a single query
+      const user = await db.user.findUnique({
+        where: { email },
+        include: {
+          student: true,
+          instructor: true,
+          admin: true,
+        },
+      });
 
-    if (!user) {
-      return null;
+      if (!user) {
+        return null;
+      }
+
+      // Remove password from response
+      const { password, ...userWithoutPassword } = user;
+
+      // Optional: Filter the relations in JS to match current active role 
+      // This keeps the object clean but prevents multiple DB hits
+      const role = user.role?.toLowerCase();
+      if (role === 'student') {
+        delete userWithoutPassword.instructor;
+        delete userWithoutPassword.admin;
+      } else if (role === 'instructor') {
+        delete userWithoutPassword.student;
+        delete userWithoutPassword.admin;
+      } else if (role === 'admin') {
+        delete userWithoutPassword.student;
+        delete userWithoutPassword.instructor;
+      }
+
+      return userWithoutPassword;
+    } catch (error) {
+      console.error(`Error fetching user by email ${email}:`, error.message);
+      throw new Error(`Error fetching user by email: ${error.message}`);
     }
-
-    // Remove password from response
-    const { password, ...userWithoutPassword } = user;
-
-    // Optional: Filter the relations in JS to match current active role 
-    // This keeps the object clean but prevents multiple DB hits
-    const role = user.role?.toLowerCase();
-    if (role === 'student') {
-      delete userWithoutPassword.instructor;
-      delete userWithoutPassword.admin;
-    } else if (role === 'instructor') {
-      delete userWithoutPassword.student;
-      delete userWithoutPassword.admin;
-    } else if (role === 'admin') {
-      delete userWithoutPassword.student;
-      delete userWithoutPassword.instructor;
-    }
-
-    return userWithoutPassword;
-  } catch (error) {
-    console.error(`Error fetching user by email ${email}:`, error.message);
-    throw new Error(`Error fetching user by email: ${error.message}`);
+  },
+  (email) => ["user", email],
+  {
+    tags: ["user-data"],
+    revalidate: 3600, // 1 hour
   }
-};
+);
 
 // MARK: Get users by role with efficient querying
 export const getUsersByRole = async (role) => {

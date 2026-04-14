@@ -2,7 +2,7 @@
 
 import { getLoggedInUser } from "@/lib/loggedin-user";
 import { db } from "@/lib/prisma";
-import { revalidatePath } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 import { checkBadgesAfterLesson } from "./badges";
 import { updateCourseProgressAfterQuizOrLesson } from "./quiz";
 // !MARK: createLesson
@@ -413,6 +413,8 @@ export async function toggleLessonProgress(userId, lessonId, courseId, isComplet
 
         // Revalidate the course page to update the UI
         revalidatePath(`/courses/${courseId}`);
+        revalidateTag("completed-lessons");
+        revalidateTag("enrolled-courses");
 
         return { success: true };
     } catch (error) {
@@ -479,10 +481,11 @@ export async function markLessonComplete({userId, lessonId,courseId}) {
         // Check and award badges after lesson completion
         await checkBadgesAfterLesson(userId);
 
-        // Revalidate the course page to update the UI
         revalidatePath(`/courses/${courseId}`);
         revalidatePath('/account/progress');
         revalidatePath('/student-dashboard');
+        revalidateTag("completed-lessons");
+        revalidateTag("enrolled-courses");
 
         return {
             success: true,

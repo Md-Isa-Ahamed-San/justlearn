@@ -4,7 +4,7 @@ import { getLoggedInUser } from "@/lib/loggedin-user";
 import { db } from "@/lib/prisma";
 import Groq from "groq-sdk";
 import { buildModelConfigs, getActiveGroqModelIds, getGroqApiKeys } from "@/lib/groq-models";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 
 import { checkBadgesAfterCourseComplete, checkBadgesAfterQuiz } from "./badges";
 
@@ -646,6 +646,8 @@ export async function submitQuizWithStudentAnswer(data) {
     // Step 10: Revalidate relevant paths
     revalidatePath('/dashboard');
     revalidatePath(`/quiz/${quizId}`);
+    revalidateTag("completed-quizzes");
+    revalidateTag("enrolled-courses");
 
     // Step 11: Return success response
     return {

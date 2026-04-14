@@ -307,140 +307,147 @@ console.log("CoursesPage ~ fetched courses in server action:", {
 // ===== USER ENROLLMENT FUNCTIONS =====
 
 // ✅ Get User's Enrolled Courses
-export const getUserEnrolledCourses = async (userId) => {
-  try {
-    if (!userId) {
-      console.error("❌ No userId provided");
-      throw new Error("User ID is required");
-    }
+export const getUserEnrolledCourses = unstable_cache(
+  async (userId) => {
+    try {
+      if (!userId) {
+        console.error("❌ No userId provided");
+        throw new Error("User ID is required");
+      }
 
-    const enrolledCourses = await db.participation.findMany({
-      where: {
-        userId: userId,
-      },
-      include: {
-        course: {
-          include: {
-            category: {
-              select: {
-                id: true,
-                title: true,
-                thumbnail: true,
+      const enrolledCourses = await db.participation.findMany({
+        where: {
+          userId: userId,
+        },
+        include: {
+          course: {
+            include: {
+              category: {
+                select: {
+                  id: true,
+                  title: true,
+                  thumbnail: true,
+                },
               },
-            },
-            user: {
-              select: {
-                id: true,
-                name: true,
-                email: true,
-                role: true,
-                image: true,
-                instructor: {
-                  select: {
-                    id: true,
-                    designation: true,
-                    bio: true,
-                    department: true,
+              user: {
+                select: {
+                  id: true,
+                  name: true,
+                  email: true,
+                  role: true,
+                  image: true,
+                  instructor: {
+                    select: {
+                      id: true,
+                      designation: true,
+                      bio: true,
+                      department: true,
+                    },
                   },
                 },
               },
-            },
-            weeks: {
-              select: {
-                id: true,
-                title: true,
-                order: true,
-                weekQuiz: {
-                  select: { id: true }
-                },
-                lessons: {
-                  select: {
-                    id: true,
-                    title: true,
-                    duration: true,
-                    order: true,
+              weeks: {
+                select: {
+                  id: true,
+                  title: true,
+                  order: true,
+                  weekQuiz: {
+                    select: { id: true }
                   },
-                  orderBy: {
-                    order: "asc",
+                  lessons: {
+                    select: {
+                      id: true,
+                      title: true,
+                      duration: true,
+                      order: true,
+                    },
+                    orderBy: {
+                      order: "asc",
+                    },
                   },
                 },
+                orderBy: {
+                  order: "asc",
+                },
               },
-              orderBy: {
-                order: "asc",
+              // ✅ Join CourseProgress to get the real progress % and status
+              courseProgress: {
+                where: { userId },
+                select: {
+                  status: true,
+                  progress: true,
+                  completedLessons: true,
+                  completedQuizzes: true,
+                  completionDate: true,
+                  lastActivityDate: true,
+                },
               },
-            },
-            // ✅ Join CourseProgress to get the real progress % and status
-            courseProgress: {
-              where: { userId },
-              select: {
-                status: true,
-                progress: true,
-                completedLessons: true,
-                completedQuizzes: true,
-                completionDate: true,
-                lastActivityDate: true,
-              },
-            },
-            _count: {
-              select: {
-                testimonials: true,
-                participations: true,
+              _count: {
+                select: {
+                  testimonials: true,
+                  participations: true,
+                },
               },
             },
           },
         },
-      },
-      orderBy: {
-        createdAt: "desc",
-      },
-    });
-
-    const transformedCourses = enrolledCourses.map((enrollment) => {
-      const course = enrollment.course;
-
-      const totalDuration = course.weeks.reduce((total, week) => {
-        const weekDuration = week.lessons.reduce((weekTotal, lesson) => {
-          return weekTotal + (lesson.duration || 0);
-        }, 0);
-        return total + weekDuration;
-      }, 0);
-
-      const totalLessons = course.weeks.reduce((total, week) => {
-        return total + week.lessons.length;
-      }, 0);
-
-      // ✅ Pull the real progress and status from the CourseProgress record
-      const progressRecord = course.courseProgress?.[0];
-
-      return {
-        enrollmentId: enrollment.id,
-        // Real progress % (0–100) from CourseProgress
-        progress: progressRecord?.progress ?? 0,
-        // Real enrollment status
-        enrollmentStatus: progressRecord?.status ?? "not_started",
-        enrolledAt: enrollment.createdAt,
-        lastUpdated: enrollment.updatedAt,
-        course: {
-          ...course,
-          courseProgress: undefined, // strip from nested object
-          totalDuration,
-          totalLessons,
-          totalWeeks: course.weeks.length,
-          totalStudents: course._count.participations,
-          totalTestimonials: course._count.testimonials,
+        orderBy: {
+          createdAt: "desc",
         },
-      };
-    });
+      });
 
-    return transformedCourses;
-  } catch (error) {
-    console.error(
-        `❌ Error fetching enrolled courses for user ${userId}:`,
-        error
-    );
-    throw error;
+      const transformedCourses = enrolledCourses.map((enrollment) => {
+        const course = enrollment.course;
+
+        const totalDuration = course.weeks.reduce((total, week) => {
+          const weekDuration = week.lessons.reduce((weekTotal, lesson) => {
+            return weekTotal + (lesson.duration || 0);
+          }, 0);
+          return total + weekDuration;
+        }, 0);
+
+        const totalLessons = course.weeks.reduce((total, week) => {
+          return total + week.lessons.length;
+        }, 0);
+
+        // ✅ Pull the real progress and status from the CourseProgress record
+        const progressRecord = course.courseProgress?.[0];
+
+        return {
+          enrollmentId: enrollment.id,
+          // Real progress % (0–100) from CourseProgress
+          progress: progressRecord?.progress ?? 0,
+          // Real enrollment status
+          enrollmentStatus: progressRecord?.status ?? "not_started",
+          enrolledAt: enrollment.createdAt,
+          lastUpdated: enrollment.updatedAt,
+          course: {
+            ...course,
+            courseProgress: undefined, // strip from nested object
+            totalDuration,
+            totalLessons,
+            totalWeeks: course.weeks.length,
+            totalStudents: course._count.participations,
+            totalTestimonials: course._count.testimonials,
+          },
+        };
+      });
+
+      return transformedCourses;
+    } catch (error) {
+      console.error(
+          `❌ Error fetching enrolled courses for user ${userId}:`,
+          error
+      );
+      throw error;
+    }
+  },
+  (userId) => ["user-enrolled-courses", userId],
+  {
+    tags: ["enrolled-courses"],
+    revalidate: 3600, // 1 hour
   }
-};
+);
 
 
 // ✅ Get User's Course Enrollment Status

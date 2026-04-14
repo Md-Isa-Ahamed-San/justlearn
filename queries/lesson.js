@@ -75,45 +75,54 @@ export async function getCompletedLessonsWithDetails(userId) {
     }
 }
 
+import { unstable_cache } from "next/cache";
+
 // Get completion status for a specific course
-export async function getCompletedLessonsByCourse(userId, courseId) {
-    try {
-        if (!userId || !courseId) {
-            throw new Error("User ID and Course ID are required to fetch completed lessons.");
-        }
-
-        const completedLessons = await db.lessonProgress.findMany({
-            where: {
-                userId: userId,
-                status: "completed",
-                lesson: {
-                    week: {
-                        courseId: courseId
-                    }
-                }
-            },
-            select: {
-                lessonId: true,
-                completedAt: true,
-                timeSpent: true
-            },
-            orderBy: {
-                completedAt: "desc"
+export const getCompletedLessonsByCourse = unstable_cache(
+    async (userId, courseId) => {
+        try {
+            if (!userId || !courseId) {
+                throw new Error("User ID and Course ID are required to fetch completed lessons.");
             }
-        });
 
-        return completedLessons.map(progress => progress.lessonId);
-    } catch (error) {
-        console.error(
-            `Error fetching completed lessons for user ${userId} and course ${courseId} using Prisma:`,
-            error.message
-        );
+            const completedLessons = await db.lessonProgress.findMany({
+                where: {
+                    userId: userId,
+                    status: "completed",
+                    lesson: {
+                        week: {
+                            courseId: courseId
+                        }
+                    }
+                },
+                select: {
+                    lessonId: true,
+                    completedAt: true,
+                    timeSpent: true
+                },
+                orderBy: {
+                    completedAt: "desc"
+                }
+            });
 
-        throw new Error(
-            `Failed to retrieve completed lessons for user and course. Details: ${error.message}`
-        );
+            return completedLessons.map(progress => progress.lessonId);
+        } catch (error) {
+            console.error(
+                `Error fetching completed lessons for user ${userId} and course ${courseId} using Prisma:`,
+                error.message
+            );
+
+            throw new Error(
+                `Failed to retrieve completed lessons for user and course. Details: ${error.message}`
+            );
+        }
+    },
+    (userId, courseId) => ["completed-lessons", userId, courseId],
+    {
+        tags: ["completed-lessons"],
+        revalidate: 3600, // 1 hour
     }
-}
+);
 
 
 

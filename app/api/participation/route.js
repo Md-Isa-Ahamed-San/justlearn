@@ -3,6 +3,7 @@ export const dynamic = 'force-dynamic';
 import { NextResponse } from "next/server";
 import { db } from "@/lib/prisma";
 import { joinCourseWithCode } from "../../../queries/participation";
+import { revalidateTag } from "next/cache";
 
 export async function GET(request, { params }) {
   const { id } = params;
@@ -67,6 +68,8 @@ export async function POST(request) {
     });
 
     if (result.success) {
+      revalidateTag("enrolled-courses");
+      revalidateTag("participation");
       return Response.json(result, { status: 200 });
     } else {
       let statusCode = 400;

@@ -1,32 +1,39 @@
-import { db } from "../lib/prisma";
+import { unstable_cache } from "next/cache";
 
-export async function checkUserParticipation(userId, courseId) {
-  if (!userId) {
-    throw new Error("User ID is required");
+export const checkUserParticipation = unstable_cache(
+  async (userId, courseId) => {
+    if (!userId) {
+      throw new Error("User ID is required");
+    }
+
+    if (!courseId) {
+      throw new Error("Course ID is required");
+    }
+
+    try {
+      // Check if user is already joined to the course
+      const participation = await db.participation.findFirst({
+        where: {
+          userId: userId,
+          courseId: courseId,
+        },
+      });
+
+      return {
+        isJoined: participation !== null,
+        participationId: participation?.id || null,
+      };
+    } catch (error) {
+      console.error("Error checking participation:", error);
+      throw error;
+    }
+  },
+  (userId, courseId) => ["participation", userId, courseId],
+  {
+    tags: ["participation"],
+    revalidate: 3600, // 1 hour
   }
-
-  if (!courseId) {
-    throw new Error("Course ID is required");
-  }
-
-  try {
-    // Check if user is already joined to the course
-    const participation = await db.participation.findFirst({
-      where: {
-        userId: userId,
-        courseId: courseId,
-      },
-    });
-
-    return {
-      isJoined: participation !== null,
-      participationId: participation?.id || null,
-    };
-  } catch (error) {
-    console.error("Error checking participation:", error);
-    throw error;
-  }
-}
+);
 export async function joinCourseWithCode({ classCode, courseId, userId }) {
   try {
     // 1. Find the course by class code and courseId

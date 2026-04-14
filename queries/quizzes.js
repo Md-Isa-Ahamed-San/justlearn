@@ -302,49 +302,58 @@ export async function getQuizWithDetails(quizId) {
   }
 }
 
-export async function getCompletedQuizIdsByCourse(userId, courseId) {
-    try {
-        if (!userId || !courseId) {
-            throw new Error("User ID and Course ID are required to fetch completed quiz IDs.");
-        }
+import { unstable_cache } from "next/cache";
 
-        // First get all week IDs for the course
-        const courseWeeks = await db.week.findMany({
-            where: {
-                courseId: courseId
-            },
-            select: {
-                id: true
+export const getCompletedQuizIdsByCourse = unstable_cache(
+    async (userId, courseId) => {
+        try {
+            if (!userId || !courseId) {
+                throw new Error("User ID and Course ID are required to fetch completed quiz IDs.");
             }
-        });
 
-        const courseWeekIds = courseWeeks.map(week => week.id);
+            // First get all week IDs for the course
+            const courseWeeks = await db.week.findMany({
+                where: {
+                    courseId: courseId
+                },
+                select: {
+                    id: true
+                }
+            });
 
-        if (courseWeekIds.length === 0) {
-            return [];
-        }
+            const courseWeekIds = courseWeeks.map(week => week.id);
 
-        // Get completed quiz submissions for quizzes that belong to course weeks
-        const completedQuizzes = await db.quizSubmission.findMany({
-            where: {
-                userId: userId,
-               
-                courseId:courseId
+            if (courseWeekIds.length === 0) {
+                return [];
             }
-        });
 
-        return completedQuizzes.map(submission => submission.quizId);
+            // Get completed quiz submissions for quizzes that belong to course weeks
+            const completedQuizzes = await db.quizSubmission.findMany({
+                where: {
+                    userId: userId,
+                   
+                    courseId:courseId
+                }
+            });
 
-    } catch (error) {
-        console.error(
-            `Error fetching completed quiz IDs for user ${userId} and course ${courseId} using Prisma:`,
-            error.message
-        );
+            return completedQuizzes.map(submission => submission.quizId);
 
-        throw new Error(
-            `Failed to retrieve completed quiz IDs for user and course. Details: ${error.message}`
-        );
+        } catch (error) {
+            console.error(
+                `Error fetching completed quiz IDs for user ${userId} and course ${courseId} using Prisma:`,
+                error.message
+            );
+
+            throw new Error(
+                `Failed to retrieve completed quiz IDs for user and course. Details: ${error.message}`
+            );
+        }
+    },
+    (userId, courseId) => ["completed-quizzes", userId, courseId],
+    {
+        tags: ["completed-quizzes"],
+        revalidate: 3600, // 1 hour
     }
-}
+);
 
 

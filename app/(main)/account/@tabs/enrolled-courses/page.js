@@ -1,4 +1,4 @@
-export const dynamic = "force-dynamic";
+export const revalidate = 0; // Or better, rely on tags/paths. Removing force-dynamic for router cache.
 import { CourseProgress } from "@/components/course-progress";
 import { Badge } from "@/components/ui/badge";
 import { BookOpen, Clock, Users, Calendar } from "lucide-react";
