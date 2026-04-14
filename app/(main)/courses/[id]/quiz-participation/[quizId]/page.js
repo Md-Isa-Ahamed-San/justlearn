@@ -208,7 +208,7 @@ const sampleUserSubmissions = [
 ]
 
 export default async function QuizParticipationPage({ params }) {
-    const { id: courseId, quizId } = params
+    const { id: courseId, quizId } = await params;
 
     let serverUserData = null
 

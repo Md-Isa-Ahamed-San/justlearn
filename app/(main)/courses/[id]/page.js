@@ -10,11 +10,14 @@ import ScrollToTop from "./_components/ScrollToTop";
 const SingleCoursePage = async ({ params }) => {
   const { id } = await params;
 
-  // Batch 1: userData and courseDetails are fully independent — run in parallel
-  // Rule: async-parallel (vercel-react-best-practices)
-  const [{ userData }, rawCourseDetails] = await Promise.all([
-    getServerUserData(),
+  // 1. Get session first (extremely fast since it's likely already in Request/Context)
+  const [{ userData }] = await Promise.all([getServerUserData()]);
+
+  // 2. Fetch Course Details AND Participation in parallel
+  // This avoids Batch 2 waiting for Batch 1 to finish completely
+  const [rawCourseDetails, { isJoined }] = await Promise.all([
     getCourseDetailsById(id),
+    userData?.id ? checkUserParticipation(userData.id, id) : Promise.resolve({ isJoined: false }),
   ]);
 
   // Determine if the viewer is the course instructor
@@ -35,23 +38,22 @@ const SingleCoursePage = async ({ params }) => {
     };
   }
 
-  // Batch 2: completedLessons, completedQuizzes, and participation all need
-  // userData.id + courseDetails.id but are independent of each other — run in parallel
-  const [completedLessons, completedQuizzes, { isJoined }] = await Promise.all([
-    userData?.id && courseDetails?.id
+  // 3. Fetch user progress only if they are joined
+  // This reduces unnecessary DB calls for non-joined users
+  const [completedLessons, completedQuizzes] = await Promise.all([
+    userData?.id && courseDetails?.id && isJoined
       ? getCompletedLessonsByCourse(userData.id, courseDetails.id)
       : Promise.resolve([]),
-    userData?.id && courseDetails?.id
+    userData?.id && courseDetails?.id && isJoined
       ? getCompletedQuizIdsByCourse(userData.id, courseDetails.id)
       : Promise.resolve([]),
-    checkUserParticipation(userData.id, id),
   ]);
 
   return (
     <div>
       <ScrollToTop />
       <CourseDetailsHero
-        categoryTitle={courseDetails?.category.title}
+        categoryTitle={courseDetails?.category?.title}
         title={courseDetails?.title}
         description={courseDetails?.description}
         thumbnail={courseDetails?.thumbnail}

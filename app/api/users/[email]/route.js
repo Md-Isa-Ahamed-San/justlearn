@@ -6,6 +6,7 @@ import { getUserByEmail } from "../../../../queries/users";
 
 export async function GET(request, { params }) {
   try {
+    const { email } = await params;
     // Verify authentication
     const session = await auth();
     if (!session?.user?.email) {
@@ -13,7 +14,7 @@ export async function GET(request, { params }) {
     }
 
     // Decode the email parameter (in case it was URL encoded)
-    const requestedEmail = decodeURIComponent(params.email);
+    const requestedEmail = decodeURIComponent(email);
     console.log(" GET ~ requestedEmail:", requestedEmail)
     console.log(" GET ~ session.user.email:", session.user.email)
 

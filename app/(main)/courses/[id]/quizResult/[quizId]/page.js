@@ -25,6 +25,7 @@ function formatTimeSpent(timeInSeconds) {
 
 export async function generateMetadata({ params }) {
   try {
+    const { id, quizId } = await params;
     // Get current user session
     const session = await getServerUserData()
     
@@ -39,8 +40,8 @@ export async function generateMetadata({ params }) {
     // Use correct parameter names from URL and userData.id
     const submissionData = await getQuizSubmissionDetails({
       userId: session.userData.id,  // Use userData.id from session
-      courseId: params.id,           // Use params.id (from [id] folder)
-      quizId: params.quizId          // Use params.quizId (from [quizId] folder)
+      courseId: id,           // Use awaited id
+      quizId: quizId          // Use awaited quizId
     })
     
     const { submission, answers } = submissionData.data
@@ -60,6 +61,7 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function QuizResultsPage({ params }) {
+  const { id, quizId } = await params;
   let submissionData
 
   try {
@@ -76,8 +78,8 @@ export default async function QuizResultsPage({ params }) {
     // Use dynamic params from URL and userData.id from session
     submissionData = await getQuizSubmissionDetails({
       userId: session.userData.id,  // Use userData.id (MongoDB _id as string)
-      courseId: params.id,           // Use params.id (from [id] folder)
-      quizId: params.quizId          // Use params.quizId (from [quizId] folder)
+      courseId: id,           // Use awaited id
+      quizId: quizId          // Use awaited quizId
     })
     
     console.log("Submission data loaded successfully:", submissionData)
@@ -131,7 +133,7 @@ export default async function QuizResultsPage({ params }) {
         {/* Navigation Actions */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-12 pt-8 border-t border-border">
           <Button asChild variant="default" size="lg">
-            <Link href={`/course/${params.id}`}>
+            <Link href={`/courses/${id}`}>
               Return to Course
             </Link>
           </Button>

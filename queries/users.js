@@ -35,10 +35,10 @@ export async function getServerUserData() {
       return null;
     }
 
-
+    // Since auth() already provides user, role, and image in the session from the JWT callback,
+    // we only fetch full database details if specifically needed.
     const userData = await getUserByEmail(session.user.email);
 
-    // Combine session and database data
     return {
       ...session,
       userData,
@@ -276,29 +276,40 @@ export const getUser = async (id) => {
 // MARK: Get user by email
 export const getUserByEmail = async (email) => {
   try {
-    // First get the user to know their role
-    const userBasic = await db.user.findUnique({
+    // Fetch user with all potential role-based relations in a single query
+    const user = await db.user.findUnique({
       where: { email },
-      select: { role: true },
+      include: {
+        student: true,
+        instructor: true,
+        admin: true,
+      },
     });
 
-    if (!userBasic) {
+    if (!user) {
       return null;
     }
 
-    // Then fetch with appropriate include
-    const user = await db.user.findUnique({
-      where: { email },
-      include: getIncludeByRole(userBasic.role),
-    });
+    // Remove password from response
+    const { password, ...userWithoutPassword } = user;
 
-    if (user) {
-      const { password, ...userWithoutPassword } = user;
-      return userWithoutPassword;
+    // Optional: Filter the relations in JS to match current active role 
+    // This keeps the object clean but prevents multiple DB hits
+    const role = user.role?.toLowerCase();
+    if (role === 'student') {
+      delete userWithoutPassword.instructor;
+      delete userWithoutPassword.admin;
+    } else if (role === 'instructor') {
+      delete userWithoutPassword.student;
+      delete userWithoutPassword.admin;
+    } else if (role === 'admin') {
+      delete userWithoutPassword.student;
+      delete userWithoutPassword.instructor;
     }
 
-    return null;
+    return userWithoutPassword;
   } catch (error) {
+    console.error(`Error fetching user by email ${email}:`, error.message);
     throw new Error(`Error fetching user by email: ${error.message}`);
   }
 };

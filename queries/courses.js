@@ -44,58 +44,66 @@ export const getCourseList = unstable_cache(
     }
 );
 
-// ✅ Get Course Details by ID
-export const getCourseDetailsById = async (id) => {
-  try {
-    const course = await db.course.findUnique({
-      where: { id },
-      include: {
-        category: true,
-        user: {
-          include: {
-            instructor: true,
-          },
-        },
-        weeks: {
-          include: {
-            lessons: {
-              orderBy: { order: "asc" },
+// ✅ Get Course Details by ID (Cached)
+export const getCourseDetailsById = unstable_cache(
+  async (id) => {
+    try {
+      const course = await db.course.findUnique({
+        where: { id },
+        include: {
+          category: true,
+          user: {
+            include: {
+              instructor: true,
             },
-            weekQuiz: {
-              include: {
-                quiz: true
+          },
+          weeks: {
+            include: {
+              lessons: {
+                orderBy: { order: "asc" },
+                where: { active: true }, // Optimization: only fetch active lessons
+              },
+              weekQuiz: {
+                include: {
+                  quiz: true
+                }
               }
-            }
+            },
+            orderBy: { order: "asc" },
           },
-          orderBy: { order: "asc" },
-        },
-        testimonials: {
-          include: {
-            user: true,
+          testimonials: {
+            include: {
+              user: true,
+            },
+            orderBy: { createdAt: "desc" },
+            take: 10,
           },
-          orderBy: { createdAt: "desc" },
-          take: 10,
         },
-      },
-    });
-
-    if (course && course.weeks) {
-      course.weeks.forEach(week => {
-        if (week.weekQuiz && week.weekQuiz.length > 0) {
-          week.quizzes = week.weekQuiz.map(wq => wq.quiz).sort((a,b) => new Date(a.createdAt) - new Date(b.createdAt));
-        } else {
-          week.quizzes = [];
-        }
-        delete week.weekQuiz;
       });
-    }
 
-    return course;
-  } catch (error) {
-    console.error(`Error fetching course ${id}:`, error);
-    throw error;
+      if (course && course.weeks) {
+        course.weeks.forEach(week => {
+          if (week.weekQuiz && week.weekQuiz.length > 0) {
+            week.quizzes = week.weekQuiz.map(wq => wq.quiz).sort((a,b) => new Date(a.createdAt) - new Date(b.createdAt));
+          } else {
+            week.quizzes = [];
+          }
+          delete week.weekQuiz;
+        });
+      }
+
+      return course;
+    } catch (error) {
+      console.error(`Error fetching course ${id}:`, error);
+      throw error;
+    }
+  },
+  (id) => ["course-details", id],
+  {
+    revalidate: 3600, // Cache for 1 hour
+    tags: ["course-details"],
   }
-};
+);
 
 // ✅ Get Courses by Category
 export const getCoursesByCategory = async (categoryId) => {
