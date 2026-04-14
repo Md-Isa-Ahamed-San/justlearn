@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { TabsContent } from "@/components/ui/tabs";
 import { useParams, useRouter } from "next/navigation";
 import {
@@ -169,7 +169,9 @@ const CourseCurriculum = ({
     return `Complete all ${incompleteLessons.length} lessons to unlock this quiz`;
   };
 
-  const handleMarkLessonComplete = async (lessonId) => {
+  // useCallback: stabilizes handler references across re-renders triggered by
+  // isUpdating / isModalOpen state flips. Rule: rerender-memo (vercel-react-best-practices)
+  const handleMarkLessonComplete = useCallback(async (lessonId) => {
     console.log("Processing lesson completion for ID:", lessonId);
     setIsUpdating(true);
 
@@ -207,9 +209,9 @@ const CourseCurriculum = ({
     } finally {
       setIsUpdating(false);
     }
-  };
+  }, [currentUser?.id, params.id]);
 
-  const getAttachmentIcon = (type) => {
+  const getAttachmentIcon = useCallback((type) => {
     switch (type) {
       case "image":
         return <FileText className="h-4 w-4" />;
@@ -220,26 +222,26 @@ const CourseCurriculum = ({
       default:
         return <FileText className="h-4 w-4" />;
     }
-  };
+  }, []);
 
-  const handleAttachmentClick = (attachment) => {
+  const handleAttachmentClick = useCallback((attachment) => {
     if (attachment.type === "link") {
       window.open(attachment.url, "_blank");
     } else {
       window.open(attachment.url, "_blank");
     }
-  };
+  }, []);
 
-  const onNavigateToQuiz = (quizId, quizCompleted) => {
+  const onNavigateToQuiz = useCallback((quizId, quizCompleted) => {
     console.log("quizCompleted: ", quizCompleted);
     if (quizCompleted) {
       router.push(`/courses/${params.id}/quizResult/${quizId}`);
     } else {
       router.push(`/courses/${params.id}/quiz-participation/${quizId}`);
     }
-  };
+  }, [params.id, router]);
 
-  const handleLessonClick = (lesson, isUnlocked) => {
+  const handleLessonClick = useCallback((lesson, isUnlocked) => {
     if (!currentUser) {
       toast.error("Please log in to access lessons");
       return;
@@ -252,9 +254,9 @@ const CourseCurriculum = ({
 
     setSelectedLesson(lesson);
     setIsModalOpen(true);
-  };
+  }, [currentUser]);
 
-  const handleQuizClick = (quiz, isUnlocked, quizCompleted) => {
+  const handleQuizClick = useCallback((quiz, isUnlocked, quizCompleted) => {
     if (!currentUser) {
       toast.error("Please log in to take quizzes");
       return;
@@ -266,7 +268,7 @@ const CourseCurriculum = ({
     }
     console.log("Navigating to quiz ID:", quiz.id, "Completed:", quizCompleted);
     onNavigateToQuiz(quiz.id, quizCompleted);
-  };
+  }, [currentUser, onNavigateToQuiz]);
 
   const getTotalDuration = () => {
     if (!courseDetails?.weeks) return 0;

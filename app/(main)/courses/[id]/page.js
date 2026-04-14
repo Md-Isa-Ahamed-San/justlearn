@@ -9,10 +9,13 @@ import ScrollToTop from "./_components/ScrollToTop";
 
 const SingleCoursePage = async ({ params }) => {
   const { id } = await params;
-  const { userData } = await getServerUserData();
 
-  const rawCourseDetails = await getCourseDetailsById(id);
-  const { isJoined } = await checkUserParticipation(userData.id, id);
+  // Batch 1: userData and courseDetails are fully independent — run in parallel
+  // Rule: async-parallel (vercel-react-best-practices)
+  const [{ userData }, rawCourseDetails] = await Promise.all([
+    getServerUserData(),
+    getCourseDetailsById(id),
+  ]);
 
   // Determine if the viewer is the course instructor
   const isInstructor =
@@ -32,14 +35,17 @@ const SingleCoursePage = async ({ params }) => {
     };
   }
 
-  const completedLessons =
+  // Batch 2: completedLessons, completedQuizzes, and participation all need
+  // userData.id + courseDetails.id but are independent of each other — run in parallel
+  const [completedLessons, completedQuizzes, { isJoined }] = await Promise.all([
     userData?.id && courseDetails?.id
-      ? await getCompletedLessonsByCourse(userData.id, courseDetails.id)
-      : [];
-  const completedQuizzes =
+      ? getCompletedLessonsByCourse(userData.id, courseDetails.id)
+      : Promise.resolve([]),
     userData?.id && courseDetails?.id
-      ? await getCompletedQuizIdsByCourse(userData.id, courseDetails.id)
-      : [];
+      ? getCompletedQuizIdsByCourse(userData.id, courseDetails.id)
+      : Promise.resolve([]),
+    checkUserParticipation(userData.id, id),
+  ]);
 
   return (
     <div>

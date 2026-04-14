@@ -84,14 +84,15 @@ const howItWorks = [
 //MARK: courses
 
 const HomePage = async () => {
-  // const courseList = await getCourseList();
   console.log("inside home page........");
 
-  // const user = await getAllUsers()
-  const fetchedCourse = await getCourseList();
+  // getCourseList and getCategories are independent — run in parallel
+  // Rule: async-parallel (vercel-react-best-practices)
+  const [fetchedCourse, categories] = await Promise.all([
+    getCourseList(),
+    getCategories(),
+  ]);
   const courses = fetchedCourse.filter(item=>item.visibility==="public" && item.active===true)
-  // console.log(" HomePage ~ courses:", courses)
-  const categories = await getCategories();
   // const cc = await getCourseDetails("664aca881387e2ad2e8be484")
   // chalkLog.log(" HomePage ~ courses:", courses)
   // console.log(" HomePage ~ categories:", categories)

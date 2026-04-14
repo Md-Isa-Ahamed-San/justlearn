@@ -197,6 +197,9 @@ model Course {
   courseProgress  CourseProgress[] @relation("CourseCourseProgress")
   reports         Report[]         @relation("CourseReports")
   participations  Participation[]  @relation("CourseParticipations")
+
+  @@index([userId])
+  @@index([categoryId])
 }
 
 model Week {
@@ -216,6 +219,8 @@ model Week {
   lessons  Lesson[]
   watches  Watch[]
   weekQuiz WeekQuiz[]
+
+  @@index([courseId])
 }
 
 // Explicit join table replacing Week.quizIds[] and Quiz.weekIds[]
@@ -303,6 +308,8 @@ model Lesson {
   watches        Watch[]
   LessonProgress LessonProgress[]
   comments       Comment[]
+
+  @@index([weekId])
 }
 
 model LessonProgress {
@@ -498,6 +505,9 @@ model Testimonial {
   // Relationships
   user   User   @relation("UserTestimonials", fields: [userId], references: [id])
   course Course @relation("CourseTestimonials", fields: [courseId], references: [id])
+
+  @@index([courseId])
+  @@index([rating])
 }
 
 model Report {
@@ -529,6 +539,9 @@ model Participation {
   // Relationships
   course Course @relation("CourseParticipations", fields: [courseId], references: [id])
   user   User   @relation("UserParticipations", fields: [userId], references: [id])
+
+  @@index([courseId])
+  @@index([userId])
 }
 
 model Watch {

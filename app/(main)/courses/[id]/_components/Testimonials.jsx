@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { cn } from "@/lib/utils";
 import {
   Carousel,
@@ -102,7 +102,9 @@ const Testimonials = ({ testimonials = [] }) => {
     return `${Math.floor(diffDays / 365)} years ago`;
   };
 
-  const handleSubmit = async () => {
+  // useCallback: stabilizes onClick references across frequent state changes
+  // (rating, content, hoveredStar). Rule: rerender-memo (vercel-react-best-practices)
+  const handleSubmit = useCallback(async () => {
     if (content.trim().length < 10) {
       toast.error("Please write at least 10 characters");
       return;
@@ -132,16 +134,16 @@ const Testimonials = ({ testimonials = [] }) => {
     } finally {
       setIsSubmitting(false);
     }
-  };
+  }, [content, editingTestimonial, rating, userData?.userData?.id, courseId]);
 
-  const handleEdit = (testimonial) => {
+  const handleEdit = useCallback((testimonial) => {
     setEditingTestimonial(testimonial);
     setContent(testimonial.content);
     setRating(testimonial.rating);
     setIsDialogOpen(true);
-  };
+  }, []);
 
-  const handleDelete = async (testimonialId) => {
+  const handleDelete = useCallback(async (testimonialId) => {
     if (!confirm("Are you sure you want to delete your testimonial?")) return;
     try {
       await onDeleteTestimonial?.(testimonialId);
@@ -149,16 +151,16 @@ const Testimonials = ({ testimonials = [] }) => {
     } catch (error) {
       toast.error("Failed to delete testimonial");
     }
-  };
+  }, []);
 
-  const handleDialogClose = () => {
+  const handleDialogClose = useCallback(() => {
     setIsDialogOpen(false);
     setTimeout(() => {
       setEditingTestimonial(null);
       setContent("");
       setRating(5);
     }, 300); // Delay reset to allow dialog to animate out
-  };
+  }, []);
 
   const renderStars = (currentRating, interactive = false, size = "h-5 w-5") => {
     return (

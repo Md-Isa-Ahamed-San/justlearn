@@ -4,7 +4,8 @@ import { IconBook2, IconUsers } from "@tabler/icons-react";
 import { Suspense } from "react";
 import { getCourseList } from "../../../../queries/courses";
 import { getAllUsers } from "../../../../queries/users";
-import AnalyticsCharts from "./analytics-charts";
+// Client loader wrapper owns the `ssr: false` dynamic import — not allowed in Server Components directly
+import AnalyticsCharts from "./analytics-charts-loader";
 import BadgeManagement from "./badge-management";
 import CourseManagement from "./course-management";
 import UserManagement from "./user-management/user-management";

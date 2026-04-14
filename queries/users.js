@@ -216,25 +216,31 @@ export const getAllUsers = async () => {
       orderBy: {
         createdAt: "desc",
       },
+      include: {
+        student: true,
+        instructor: true,
+        admin: true
+      }
     });
 
-    // Fetch role-specific data for each user
-    const usersWithRoleData = await Promise.all(
-      users.map(async (user) => {
-        const userWithRole = await db.user.findUnique({
-          where: { id: user.id },
-          include: getIncludeByRole(user.role),
-        });
+    const formattedUsers = users.map(user => {
+      const { password, ...userWithoutPassword } = user;
+      
+      if (user.role === 'student') {
+        delete userWithoutPassword.instructor;
+        delete userWithoutPassword.admin;
+      } else if (user.role === 'instructor') {
+        delete userWithoutPassword.student;
+        delete userWithoutPassword.admin;
+      } else if (user.role === 'admin') {
+        delete userWithoutPassword.student;
+        delete userWithoutPassword.instructor;
+      }
+      
+      return userWithoutPassword;
+    });
 
-        if (!userWithRole) return null;
-
-        // Remove password from response
-        const { password, ...userWithoutPassword } = userWithRole;
-        return userWithoutPassword;
-      })
-    );
-
-    return usersWithRoleData.filter(Boolean);
+    return formattedUsers;
   } catch (error) {
     throw new Error(`Error fetching users: ${error.message}`);
   }
@@ -679,8 +685,7 @@ export const searchUsers = async (filters = {}) => {
 
     const skip = (page - 1) * limit;
 
-    // First get users without role data to determine roles
-    const [usersBasic, total] = await Promise.all([
+    const [usersWithRoles, total] = await Promise.all([
       db.user.findMany({
         where: whereCondition,
         skip,
@@ -688,30 +693,36 @@ export const searchUsers = async (filters = {}) => {
         orderBy: {
           createdAt: "desc",
         },
+        include: {
+          student: true,
+          instructor: true,
+          admin: true
+        }
       }),
       db.user.count({
         where: whereCondition,
       }),
     ]);
 
-    // Then fetch each user with their specific role data
-    const users = await Promise.all(
-      usersBasic.map(async (user) => {
-        const userWithRole = await db.user.findUnique({
-          where: { id: user.id },
-          include: getIncludeByRole(user.role),
-        });
-
-        if (!userWithRole) return null;
-
-        // Remove password from response
-        const { password, ...userWithoutPassword } = userWithRole;
-        return userWithoutPassword;
-      })
-    );
+    const formattedUsers = usersWithRoles.map(user => {
+      const { password, ...userWithoutPassword } = user;
+      
+      if (user.role === 'student') {
+        delete userWithoutPassword.instructor;
+        delete userWithoutPassword.admin;
+      } else if (user.role === 'instructor') {
+        delete userWithoutPassword.student;
+        delete userWithoutPassword.admin;
+      } else if (user.role === 'admin') {
+        delete userWithoutPassword.student;
+        delete userWithoutPassword.instructor;
+      }
+      
+      return userWithoutPassword;
+    });
 
     return {
-      users: users.filter(Boolean),
+      users: formattedUsers,
       pagination: {
         total,
         page,

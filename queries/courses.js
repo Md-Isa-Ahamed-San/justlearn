@@ -61,6 +61,11 @@ export const getCourseDetailsById = async (id) => {
             lessons: {
               orderBy: { order: "asc" },
             },
+            weekQuiz: {
+              include: {
+                quiz: true
+              }
+            }
           },
           orderBy: { order: "asc" },
         },
@@ -74,30 +79,15 @@ export const getCourseDetailsById = async (id) => {
       },
     });
 
-    // If you need to fetch quizzes for each week, you'll need to do it separately
     if (course && course.weeks) {
-      for (const week of course.weeks) {
-        // Fetch weekQuiz join records for this week to get quiz IDs
-        const weekQuizzes = await db.weekQuiz.findMany({
-          where: { weekId: week.id },
-          select: { quizId: true }
-        });
-        
-        const quizIds = weekQuizzes.map(wq => wq.quizId);
-
-        if (quizIds.length > 0) {
-          week.quizzes = await db.quiz.findMany({
-            where: {
-              id: {
-                in: quizIds,
-              },
-            },
-            orderBy: { createdAt: "asc" },
-          });
+      course.weeks.forEach(week => {
+        if (week.weekQuiz && week.weekQuiz.length > 0) {
+          week.quizzes = week.weekQuiz.map(wq => wq.quiz).sort((a,b) => new Date(a.createdAt) - new Date(b.createdAt));
         } else {
           week.quizzes = [];
         }
-      }
+        delete week.weekQuiz;
+      });
     }
 
     return course;
@@ -511,29 +501,30 @@ export const getInstructorDetailedStats = async (userId) => {
       };
     }
 
-    const courseParticipationStats = await db.participation.groupBy({
-      by: ["courseId"],
-      where: {
-        courseId: { in: courseIds },
-      },
-      _count: { id: true },
-    });
+    const [courseParticipationStats, testimonials] = await Promise.all([
+      db.participation.groupBy({
+        by: ["courseId"],
+        where: {
+          courseId: { in: courseIds },
+        },
+        _count: { id: true },
+      }),
+      db.testimonial.findMany({
+        where: {
+          courseId: { in: courseIds },
+          rating: {
+            not: null,
+            gte: 1,
+          },
+        },
+        select: { rating: true },
+      })
+    ]);
 
     const totalStudents = courseParticipationStats.reduce(
         (total, item) => total + item._count.id,
         0
     );
-
-    const testimonials = await db.testimonial.findMany({
-      where: {
-        courseId: { in: courseIds },
-        rating: {
-          not: null,
-          gte: 1,
-        },
-      },
-      select: { rating: true },
-    });
 
     const testimonialCount = testimonials.length;
     const totalRating = testimonials.reduce(
@@ -561,67 +552,69 @@ export const getInstructorDetailedStats = async (userId) => {
 // ✅ Get Instructor Analytics
 export const getInstructorAnalytics = async (instructorUserId) => {
   try {
-    const instructorCourses = await db.course.findMany({
-      where: {
-        userId: instructorUserId,
-      },
-      include: {
-        weeks: {
-          include: {
-            lessons: true,
-          },
+    const [instructorCourses, instructorQuizzes] = await Promise.all([
+      db.course.findMany({
+        where: {
+          userId: instructorUserId,
         },
-        testimonials: true,
-        certificates: true,
-        courseProgress: {
-          include: {
-            user: {
-              select: {
-                id: true,
-                name: true,
-                email: true,
+        include: {
+          weeks: {
+            include: {
+              lessons: true,
+              weekQuiz: true,
+            },
+          },
+          testimonials: true,
+          certificates: true,
+          courseProgress: {
+            include: {
+              user: {
+                select: {
+                  id: true,
+                  name: true,
+                  email: true,
+                },
+              },
+            },
+          },
+          participations: {
+            include: {
+              user: {
+                select: {
+                  id: true,
+                  name: true,
+                  email: true,
+                },
               },
             },
           },
         },
-        participations: {
-          include: {
-            user: {
-              select: {
-                id: true,
-                name: true,
-                email: true,
+      }),
+      db.quiz.findMany({
+        where: {
+          createdByUserId: instructorUserId,
+        },
+        include: {
+          submissions: {
+            include: {
+              user: {
+                select: {
+                  id: true,
+                  name: true,
+                  email: true,
+                },
               },
             },
           },
-        },
-      },
-    });
-
-    const instructorQuizzes = await db.quiz.findMany({
-      where: {
-        createdByUserId: instructorUserId,
-      },
-      include: {
-        submissions: {
-          include: {
-            user: {
-              select: {
-                id: true,
-                name: true,
-                email: true,
-              },
-            },
-          },
-        },
-        questions: true,
-        weekQuiz: {
-          select: {
-            weekId: true
+          questions: true,
+          weekQuiz: {
+            select: {
+              weekId: true
+            }
           }
-        }
-      },
-    });
+        },
+      })
+    ]);
 
     const totalCourses = instructorCourses.length;
 

@@ -5,7 +5,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
     Star
 } from "lucide-react";
-import { AITutorWidget } from "../../../../../components/ai-tutor-widget";
+// Client loader wrapper owns the `ssr: false` dynamic import — not allowed in Server Components directly
+import AITutorWidget from "./ai-tutor-loader";
 import { formatDate } from "../../../../../lib/formatDate";
 import CourseCurriculum from "./CourseCurriculum";
 import CourseInstructor from "./CourseInstructor";

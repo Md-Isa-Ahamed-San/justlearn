@@ -8,7 +8,10 @@ import { checkProfileCompletion } from "../../actions/authActions";
 
 export async function POST(request) {
   try {
-    const session = await auth();
+    const [session, body] = await Promise.all([
+      auth(),
+      request.json()
+    ]);
     
     if (!session?.user?.email) {
       return Response.json({ 
@@ -18,7 +21,7 @@ export async function POST(request) {
       });
     }
 
-    const { email } = await request.json();
+    const { email } = body;
     
     // Verify the email matches the session
     if (email !== session.user.email) {
