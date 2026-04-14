@@ -111,8 +111,8 @@ const CourseCurriculum = ({
   const isQuizUnlocked = (currentWeek, weekIndex) => {
     if (!currentUser) return false;
 
-    // Quiz is unlocked if all lessons in the current week are completed
-    return areAllWeekLessonsCompleted(currentWeek);
+    // Quiz is unlocked if the week itself is unlocked AND all lessons in the current week are completed
+    return isWeekUnlocked(weekIndex) && areAllWeekLessonsCompleted(currentWeek);
   };
 
   // Check if a week should be accessible
@@ -150,7 +150,12 @@ const CourseCurriculum = ({
   };
 
   // Get quiz unlock requirement
-  const getQuizUnlockRequirement = (currentWeek) => {
+  const getQuizUnlockRequirement = (currentWeek, weekIndex) => {
+    if (!isWeekUnlocked(weekIndex)) {
+      const previousWeek = courseDetails.weeks[weekIndex - 1];
+      return `Complete Week ${previousWeek?.order || weekIndex} to unlock this quiz`;
+    }
+
     const incompleteLessons =
       currentWeek.lessons?.filter((lesson) => !isLessonCompleted(lesson.id)) ||
       [];
@@ -495,7 +500,7 @@ const CourseCurriculum = ({
                       const quizUnlocked = isQuizUnlocked(week, weekIndex);
                       const quizCompleted = isQuizCompleted(quiz.id);
                       const quizRequirement = !quizUnlocked
-                        ? getQuizUnlockRequirement(week)
+                        ? getQuizUnlockRequirement(week, weekIndex)
                         : null;
                       // console.log("single quiz on the curriculum page: ", quiz);
                       if (quiz.status === "draft") return null;

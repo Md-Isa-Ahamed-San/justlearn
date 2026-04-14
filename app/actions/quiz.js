@@ -435,11 +435,8 @@ export async function submitQuizWithStudentAnswer(data) {
     // Step 3: Validate quiz exists and get basic info
     const quiz = await db.quiz.findUnique({
       where: { id: quizId },
-      select: {
-        id: true,
-        title: true,
-        active: true,
-        status: true
+      include: {
+        questions: true
       }
     });
 
@@ -508,18 +505,36 @@ export async function submitQuizWithStudentAnswer(data) {
         answerData.answer === undefined;
 
       if (answerData.questionType === 'mcq') {
-        // Process MCQ directly using provided data
-        const marksAwarded = isEmpty ? 0 : (answerData.isCorrect ? answerData.mark : 0);
+        const question = quiz.questions.find(q => q.id === answerData.questionId);
+        let isCorrect = false;
+
+        if (question && !isEmpty) {
+          const correctOptions = question.options
+            .filter(opt => opt.isCorrect)
+            .map(opt => opt.label);
+          
+          const studentAnswers = Array.isArray(answerData.answer) 
+            ? answerData.answer 
+            : [answerData.answer];
+
+          // All-or-nothing scoring:
+          // 1. Student must select ALL correct options
+          // 2. Student must NOT select any incorrect options
+          isCorrect = correctOptions.length === studentAnswers.length &&
+            correctOptions.every(opt => studentAnswers.includes(opt));
+        }
+
+        const marksAwarded = isCorrect ? answerData.mark : 0;
         mcqAnswers.push({
           questionId: answerData.questionId,
           submittedAnswer: answerData.answer, // Will be empty array [] for unanswered
-          isCorrect: isEmpty ? false : answerData.isCorrect,
+          isCorrect: isCorrect,
           marksAwarded: marksAwarded,
           answerExplanation: isEmpty ? {
             explanation: "Question not answered",
             correctAnswer: "No answer provided"
           } : {
-            explanation: answerData.isCorrect ? "Correct answer" : "Incorrect answer",
+            explanation: isCorrect ? "Correct answer" : "Incorrect answer",
             correctAnswer: "See quiz results for correct answer"
           }
         });

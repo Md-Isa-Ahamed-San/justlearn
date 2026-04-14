@@ -2,7 +2,9 @@
 import { redirect } from "next/navigation"
 import QuizParticipationClient from "@/app/(main)/courses/[id]/quiz-participation/[quizId]/_component/quiz-participation-client"
 import { getServerUserData } from "../../../../../../queries/users"
-import { getQuizWithDetails } from "../../../../../../queries/quizzes"
+import { getQuizWithDetails, getCompletedQuizIdsByCourse } from "../../../../../../queries/quizzes"
+import { getCourseDetailsById } from "../../../../../../queries/courses"
+import { getCompletedLessonsByCourse } from "../../../../../../queries/lesson"
 
 // Remove: import { chalkLog } from "@/utils/chalkLogger"
 
@@ -261,6 +263,39 @@ export default async function QuizParticipationPage({ params }) {
             console.error("quiz is not published or inactive. course id is : ", courseId);
             redirect(`/courses/${courseId}`)
         }
+
+        // --- PROGRESSION VALIDATION ---
+        const course = await getCourseDetailsById(courseId);
+        const completedLessons = await getCompletedLessonsByCourse(userData.id, courseId);
+        const completedQuizIds = await getCompletedQuizIdsByCourse(userData.id, courseId);
+
+        // Find which week this quiz belongs to
+        const quizWeekIndex = course.weeks.findIndex(week => 
+            week.quizzes.some(q => q.id === quizId)
+        );
+
+        if (quizWeekIndex !== -1) {
+            // Check if all previous weeks are completed
+            for (let i = 0; i < quizWeekIndex; i++) {
+                const prevWeek = course.weeks[i];
+                const allLessonsDone = prevWeek.lessons.every(l => completedLessons.includes(l.id));
+                const allQuizzesDone = prevWeek.quizzes.every(q => completedQuizIds.includes(q.id));
+                
+                if (!allLessonsDone || !allQuizzesDone) {
+                    console.error(`Progression Error: Week ${i + 1} not completed. Redirecting.`);
+                    redirect(`/courses/${courseId}`);
+                }
+            }
+
+            // Check if all lessons in the CURRENT week are completed
+            const currentWeek = course.weeks[quizWeekIndex];
+            const currentWeekLessonsDone = currentWeek.lessons.every(l => completedLessons.includes(l.id));
+            if (!currentWeekLessonsDone) {
+                console.error(`Progression Error: Lessons in current week ${quizWeekIndex + 1} not completed. Redirecting.`);
+                redirect(`/courses/${courseId}`);
+            }
+        }
+        // --- END PROGRESSION VALIDATION ---
 
         // Get user's previous submissions for this quiz
         // For development, use sample data

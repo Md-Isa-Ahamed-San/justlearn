@@ -294,12 +294,15 @@ async function generateWithGroqInstance(
 
 CRITICAL STRICT REQUIREMENTS:
 - Generate EXACTLY ${targetMcq + 5} multiple choice questions (no more, no less)
+- MANDATORY: At least 20-30% of MCQ questions MUST have 2 or MORE correct options.
+- RANDOMIZE the position of the correct answer(s) across Options A, B, C, and D. DO NOT always make Option A the correct one.
 - Generate EXACTLY ${
     targetShort + 3
   } short answer questions (no more, no less)  
 - Generate EXACTLY ${targetLong + 3} long answer questions (no more, no less)
 - Total questions MUST be exactly ${totalRequested}
-- Each MCQ should have 4 options with only one/two correct answer
+- Each MCQ should have 4 options. 
+- For MCQs with multiple correct answers, set "isCorrect": true for ALL correct options.
 - Provide explanations for all questions
 - Questions should be relevant to the context provided
 - Vary difficulty levels appropriately
@@ -313,12 +316,12 @@ CRITICAL: You MUST return a valid JSON object with the EXACT structure below. Do
       "type": "mcq",
       "text": "Question text here",
       "options": [
-        {"label": "Option A", "isCorrect": true},
-        {"label": "Option B", "isCorrect": false},
+        {"label": "Option A", "isCorrect": false},
+        {"label": "Option B", "isCorrect": true},
         {"label": "Option C", "isCorrect": false},
         {"label": "Option D", "isCorrect": false}
       ],
-      "correctAnswer": "A",
+      "correctAnswer": "B",
       "explanation": "Explanation here",
       "mark": 1
     },
