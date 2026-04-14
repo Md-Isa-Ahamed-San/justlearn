@@ -1,4 +1,5 @@
 import { unstable_cache } from "next/cache";
+import { db } from "../lib/prisma";
 
 export const checkUserParticipation = unstable_cache(
   async (userId, courseId) => {
