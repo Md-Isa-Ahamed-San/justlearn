@@ -5,6 +5,11 @@ import React from 'react';
 import { Register } from '../../components/register';
 import {redirect} from "next/navigation";
 
+export const metadata = {
+  title: "Create an Account",
+  description: "Join JUSTLearn today. Explore, learn, build, and share your knowledge.",
+};
+
 const page = async() => {
     let serverUserData = null;
 
@@ -22,7 +27,12 @@ const page = async() => {
     const userData = serverUserData?.userData;
 
     if (userData) redirect("/");
-    return <Register/>
+    return (
+      <main>
+        <h1 className="sr-only">Create your JUSTLearn Account</h1>
+        <Register/>
+      </main>
+    );
     
 };
 

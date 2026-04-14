@@ -62,6 +62,7 @@ const FilterCourse = ({ categories, selectedCategories = [] }) => {
                 <li key={category?.id} className="flex items-center pl-3">
                   <Checkbox
                     id={`category-${optionIdx}`}
+                    aria-label={category?.title || "Category"}
                     onCheckedChange={() =>
                       handleCategoryChange(category?.title)
                     }

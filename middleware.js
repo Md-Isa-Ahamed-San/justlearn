@@ -1,3 +1,4 @@
+import { NextResponse } from "next/server";
 import { PUBLIC_ROUTES, ROOT } from "@/lib/routes";
 import NextAuth from "next-auth";
 import { authConfig } from "./auth.config";
@@ -8,6 +9,19 @@ const { auth } = NextAuth(authConfig);
 export default auth((req) => {
   const { nextUrl } = req;
   const isAuthenticated = !!req.auth;
+
+  // Add Security Headers
+  const requestHeaders = new Headers(req.headers);
+  const response = NextResponse.next({
+    request: {
+      headers: requestHeaders,
+    },
+  });
+
+  response.headers.set('X-Frame-Options', 'DENY');
+  response.headers.set('X-Content-Type-Options', 'nosniff');
+  // Add a strict CSP for frame-ancestors
+  response.headers.set('Content-Security-Policy', "frame-ancestors 'none';");
  
   chalkLog.log("isAuthenticated", isAuthenticated);
   chalkLog.log("nextUrl.pathname", nextUrl.pathname);
@@ -22,7 +36,7 @@ export default auth((req) => {
   // Only handle unauthorized redirects - don't interfere with profile completion logic
   if (!isAuthenticated && !isPublicRoute) {
     console.log("Unauthenticated user accessing protected route, redirecting to login");
-    return Response.redirect(new URL("/login", nextUrl));
+    return NextResponse.redirect(new URL("/login", nextUrl));
   }
 
   // If authenticated, enforce onboarding flow
@@ -38,13 +52,13 @@ export default auth((req) => {
     // 1. Check for role
     if (!userRole && !isRoleSelectionPage && !isApiRoute && !isAuthRoute && !isPublicRoute) {
       console.log("Authenticated user with no role — redirecting to roleSelection");
-      return Response.redirect(new URL("/roleSelection", nextUrl));
+      return NextResponse.redirect(new URL("/roleSelection", nextUrl));
     }
 
     // 2. Check for profile completion (only if they have a role)
     if (userRole && !isProfileComplete && !isProfileCompletionPage && !isRoleSelectionPage && !isApiRoute && !isAuthRoute && !isPublicRoute) {
       console.log("Authenticated user with incomplete profile — redirecting to profile-completion");
-      return Response.redirect(new URL("/profile-completion", nextUrl));
+      return NextResponse.redirect(new URL("/profile-completion", nextUrl));
     }
 
     // Role-based route protection
@@ -53,17 +67,17 @@ export default auth((req) => {
 
     if (isInstructorRoute && userRole !== "instructor" && userRole !== "admin") {
       console.log(`User role '${userRole}' not allowed on instructor route — redirecting to /courses`);
-      return Response.redirect(new URL("/courses", nextUrl));
+      return NextResponse.redirect(new URL("/courses", nextUrl));
     }
 
     if (isAdminRoute && userRole !== "admin") {
       console.log(`User role '${userRole}' not allowed on admin route — redirecting to /courses`);
-      return Response.redirect(new URL("/courses", nextUrl));
+      return NextResponse.redirect(new URL("/courses", nextUrl));
     }
   }
 
-  // Allow all other requests to continue
-  return;
+  // Allow all other requests to continue and apply security headers
+  return response;
 });
 
 export const config = {

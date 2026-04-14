@@ -5,6 +5,11 @@ import React from 'react';
 import { Login } from '../../components/login';
 import {redirect} from "next/navigation";
 
+export const metadata = {
+  title: "Login",
+  description: "Sign in to JUSTLearn to access your courses and dashboard.",
+};
+
 const page = async() => {
     let serverUserData = null;
 
@@ -23,7 +28,12 @@ const page = async() => {
 
     if (userData) redirect("/");
 
-    return <Login/>
+    return (
+      <main>
+        <h1 className="sr-only">Login to JUSTLearn</h1>
+        <Login/>
+      </main>
+    );
     
 };
 

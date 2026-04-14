@@ -3,7 +3,6 @@ import { cn } from "@/lib/utils";
 import { Inter } from "next/font/google";
 import { Delius } from "next/font/google";
 
-import Head from "next/head"; // ✅ Import Head
 import "./globals.css";
 import { ThemeProvider } from "../provider/theme-provider";
 import ThemeSwitcher from "../components/theme-switcher";
@@ -21,8 +20,34 @@ const delius = Delius({
   variable: "--font-delius",
 });
 export const metadata = {
-  title: "JUSTLearn",
-  description: "Explore || Learn || Build || Share",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"),
+  title: {
+    template: "%s | JUSTLearn",
+    default: "JUSTLearn | Advanced E-Learning Platform",
+  },
+  description: "Join JUSTLearn to explore, learn, build, and share your knowledge across hundreds of interactive courses.",
+  openGraph: {
+    title: "JUSTLearn | Advanced E-Learning Platform",
+    description: "Explore, Learn, Build, and Share your knowledge.",
+    url: "/",
+    siteName: "JUSTLearn",
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "JUSTLearn OpenGraph Image"
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "JUSTLearn | Advanced E-Learning Platform",
+    description: "Explore, Learn, Build, and Share your knowledge.",
+    images: ["/og-image.jpg"],
+  },
 };
 
 export default async function RootLayout({ children }) {
@@ -43,7 +68,7 @@ export default async function RootLayout({ children }) {
   // console.log("RootLayout ~ serverUserData:", serverUserData);
   return (
     <html lang="en" className="dark" suppressHydrationWarning>
-      <Head>
+      <head>
         <link
           rel="preload"
           as="fetch"
@@ -51,9 +76,7 @@ export default async function RootLayout({ children }) {
           type="application/json"
           crossOrigin="anonymous"
         />
-        
-      </Head>
-      <head>
+        <link rel="preload" href="/assets/lottie/heroImg.svg" as="image" />
          {/* Google Analytics */}
          <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-06K6DNZ0CS"
@@ -77,7 +100,10 @@ export default async function RootLayout({ children }) {
         >
           <SessionProvider>
             <UserDataProvider initialUserData={serverUserData}>
-              {children}
+              <a href="#main-content" className="sr-only focus:not-sr-only">Skip to main content</a>
+              <main id="main-content">
+                {children}
+              </main>
               <Analytics/>
             </UserDataProvider>
           </SessionProvider>

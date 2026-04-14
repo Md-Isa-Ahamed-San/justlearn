@@ -1,0 +1,379 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<audit version="0.0.38">
+<site url="http://localhost:3000" crawled="25" date="2026-04-14T11:54:54.524Z"/>
+<score overall="28" grade="F">
+ <cat name="Accessibility" score="75"/>
+ <cat name="Security" score="59"/>
+ <cat name="Core SEO" score="59"/>
+ <cat name="Performance" score="72"/>
+ <cat name="Crawlability" score="61"/>
+ <cat name="Content" score="76"/>
+ <cat name="Links" score="81"/>
+ <cat name="Images" score="99"/>
+ <cat name="E-E-A-T" score="81"/>
+ <cat name="Analytics" score="100"/>
+ <cat name="Internationalization" score="100"/>
+ <cat name="Legal Compliance" score="100"/>
+ <cat name="Mobile" score="100"/>
+ <cat name="Social Media" score="100"/>
+ <cat name="URL Structure" score="100"/>
+</score>
+<summary passed="1661" warnings="518" failed="187"/>
+<issues>
+ <category name="Crawlability" errors="1" warnings="19">
+  <rule id="crawl/sitemap-exists" severity="error" status="fail" docs="https://docs.squirrelscan.com/rules/crawl/sitemap-exists">
+   No XML sitemap found
+  </rule>
+  <rule id="crawl/robots-txt" severity="error" status="warn" docs="https://docs.squirrelscan.com/rules/crawl/robots-txt">
+   No robots.txt found
+  </rule>
+  <rule id="crawl/canonical-chain" severity="warning" status="warn" docs="https://docs.squirrelscan.com/rules/crawl/canonical-chain">
+   Page redirects before content is served
+   Pages (5/18): /about, /blog, /careers, /categories, /classes
+   Items (5/18):
+    - /pricing (http://localhost:3000/pricing (302) ΓåÆ http://localhost:3000/login (200)) [finalUrl: http://localhost:3000/login, chain: {&quot;sourceUrl&quot;:&quot;http://localhost:3000/pricing&quot;,&quot;finalUrl&quot;:&quot;http://localhost:3000/login&quot;,&quot;hops&quot;:[{&quot;url&quot;:&quot;http://localhost:3000/pricing&quot;,&quot;statusCode&quot;:302,&quot;type&quot;:&quot;http&quot;},{&quot;url&quot;:&quot;http://localhost:3000/logiΓÇª]
+    - /about (http://localhost:3000/about (302) ΓåÆ http://localhost:3000/login (200)) [finalUrl: http://localhost:3000/login, chain: {&quot;sourceUrl&quot;:&quot;http://localhost:3000/about&quot;,&quot;finalUrl&quot;:&quot;http://localhost:3000/login&quot;,&quot;hops&quot;:[{&quot;url&quot;:&quot;http://localhost:3000/about&quot;,&quot;statusCode&quot;:302,&quot;type&quot;:&quot;http&quot;},{&quot;url&quot;:&quot;http://localhost:3000/login&quot;,&quot;ΓÇª]
+    - /contact (http://localhost:3000/contact (302) ΓåÆ http://localhost:3000/login (200)) [finalUrl: http://localhost:3000/login, chain: {&quot;sourceUrl&quot;:&quot;http://localhost:3000/contact&quot;,&quot;finalUrl&quot;:&quot;http://localhost:3000/login&quot;,&quot;hops&quot;:[{&quot;url&quot;:&quot;http://localhost:3000/contact&quot;,&quot;statusCode&quot;:302,&quot;type&quot;:&quot;http&quot;},{&quot;url&quot;:&quot;http://localhost:3000/logiΓÇª]
+    - /careers (http://localhost:3000/careers (302) ΓåÆ http://localhost:3000/login (200)) [finalUrl: http://localhost:3000/login, chain: {&quot;sourceUrl&quot;:&quot;http://localhost:3000/careers&quot;,&quot;finalUrl&quot;:&quot;http://localhost:3000/login&quot;,&quot;hops&quot;:[{&quot;url&quot;:&quot;http://localhost:3000/careers&quot;,&quot;statusCode&quot;:302,&quot;type&quot;:&quot;http&quot;},{&quot;url&quot;:&quot;http://localhost:3000/logiΓÇª]
+    - /blog (http://localhost:3000/blog (302) ΓåÆ http://localhost:3000/login (200)) [finalUrl: http://localhost:3000/login, chain: {&quot;sourceUrl&quot;:&quot;http://localhost:3000/blog&quot;,&quot;finalUrl&quot;:&quot;http://localhost:3000/login&quot;,&quot;hops&quot;:[{&quot;url&quot;:&quot;http://localhost:3000/blog&quot;,&quot;statusCode&quot;:302,&quot;type&quot;:&quot;http&quot;},{&quot;url&quot;:&quot;http://localhost:3000/login&quot;,&quot;stΓÇª]
+  </rule>
+ </category>
+ <category name="Core SEO" errors="24" warnings="176">
+  <rule id="core/meta-title" severity="error" status="warn" docs="https://docs.squirrelscan.com/rules/core/meta-title">
+   Title too short
+   Pages (5/25): /, /about, /blog, /careers, /categories
+   Items (5/25):
+    - / (JUSTLearn (9 chars))
+    - /login (JUSTLearn (9 chars))
+    - /register (JUSTLearn (9 chars))
+    - /pricing (JUSTLearn (9 chars))
+    - /about (JUSTLearn (9 chars))
+  </rule>
+  <rule id="core/h1" severity="error" status="fail" docs="https://docs.squirrelscan.com/rules/core/h1">
+   No H1 tag found
+   Pages (5/24): /about, /blog, /careers, /categories, /classes
+   Items (5/24):
+    - /login (No H1 tag found)
+    - /register (No H1 tag found)
+    - /pricing (No H1 tag found)
+    - /about (No H1 tag found)
+    - /contact (No H1 tag found)
+  </rule>
+  <rule id="core/meta-description" severity="error" status="warn" docs="https://docs.squirrelscan.com/rules/core/meta-description">
+   Description too short
+   Pages (5/25): /, /about, /blog, /careers, /categories
+   Items (5/25):
+    - / (Explore || Learn || Build || Share (34 chars))
+    - /login (Explore || Learn || Build || Share (34 chars))
+    - /register (Explore || Learn || Build || Share (34 chars))
+    - /pricing (Explore || Learn || Build || Share (34 chars))
+    - /about (Explore || Learn || Build || Share (34 chars))
+  </rule>
+  <rule id="core/canonical" severity="warning" status="warn" docs="https://docs.squirrelscan.com/rules/core/canonical">
+   Missing canonical URL
+   Pages (5/25): /, /about, /blog, /careers, /categories
+  </rule>
+  <rule id="core/og-tags" severity="warning" status="warn" docs="https://docs.squirrelscan.com/rules/core/og-tags">
+   Missing og:title; Missing og:description; Missing og:image - social shares will lack imagery
+   Pages (5/25): /, /about, /blog, /careers, /categories
+  </rule>
+  <rule id="core/title-unique" severity="warning" status="warn" docs="https://docs.squirrelscan.com/rules/core/title-unique">
+   1 duplicate title(s) affecting 25 pages
+   Items (1):
+    - justlearn (&quot;justlearn...&quot; (25 pages)) [pageCount: 25] (from: /, /login, /register, /pricing, /about; +20 more)
+  </rule>
+  <rule id="core/twitter-cards" severity="info" status="warn" docs="https://docs.squirrelscan.com/rules/core/twitter-cards">
+   No Twitter card or Open Graph tags for Twitter sharing
+   Pages (5/25): /, /about, /blog, /careers, /categories
+  </rule>
+ </category>
+ <category name="Security" errors="25" warnings="2">
+  <rule id="security/https" severity="error" status="fail" docs="https://docs.squirrelscan.com/rules/security/https">
+   Page not served over HTTPS
+   Pages (5/25): /, /about, /blog, /careers, /categories
+  </rule>
+  <rule id="security/csp" severity="warning" status="warn" docs="https://docs.squirrelscan.com/rules/security/csp">
+   No Content-Security-Policy header
+  </rule>
+  <rule id="security/x-frame-options" severity="warning" status="warn" docs="https://docs.squirrelscan.com/rules/security/x-frame-options">
+   No clickjacking protection
+  </rule>
+ </category>
+ <category name="Links" errors="0" warnings="15">
+  <rule id="links/orphan-pages" severity="warning" status="warn" docs="https://docs.squirrelscan.com/rules/links/orphan-pages">
+   12 orphan page(s) with &lt;2 incoming links
+   Items (5/12):
+    - /pricing
+    - /about
+    - /contact
+    - /careers
+    - /blog
+  </rule>
+  <rule id="links/anchor-text" severity="warning" status="warn" docs="https://docs.squirrelscan.com/rules/links/anchor-text">
+   2 link(s) have empty anchor text
+   Pages (5/11): /, /courses, /courses?categories=AI+%26+Machine+Learning, /courses?categories=Business+%26+Management, /courses?categories=Data+Science
+   Items (2):
+    - / | &lt;a href=&quot;/&quot;&gt;&lt;div class=&quot;relative flex aspect-square items-center justify-center rounded-full bg-secondary dark:bg-second...
+    - /courses | &lt;a href=&quot;/courses&quot;&gt;&lt;div class=&quot;relative flex aspect-square items-center justify-center rounded-full bg-secondary dark:bg...
+  </rule>
+  <rule id="links/redirect-chains" severity="warning" status="warn" docs="https://docs.squirrelscan.com/rules/links/redirect-chains">
+   12 page(s) redirect to another URL; 12 link target(s) point to redirecting URLs
+   Items (5/24):
+    - /pricing (http://localhost:3000/pricing (302) ΓåÆ http://localhost:3000/login (200)) [targetUrl: http://localhost:3000/login, chain: {&quot;sourceUrl&quot;:&quot;http://localhost:3000/pricing&quot;,&quot;finalUrl&quot;:&quot;http://localhost:3000/login&quot;,&quot;hops&quot;:[{&quot;url&quot;:&quot;http://localhost:3000/pricing&quot;,&quot;statusCode&quot;:302,&quot;type&quot;:&quot;http&quot;},{&quot;url&quot;:&quot;http://localhost:3000/logiΓÇª]
+    - /about (http://localhost:3000/about (302) ΓåÆ http://localhost:3000/login (200)) [targetUrl: http://localhost:3000/login, chain: {&quot;sourceUrl&quot;:&quot;http://localhost:3000/about&quot;,&quot;finalUrl&quot;:&quot;http://localhost:3000/login&quot;,&quot;hops&quot;:[{&quot;url&quot;:&quot;http://localhost:3000/about&quot;,&quot;statusCode&quot;:302,&quot;type&quot;:&quot;http&quot;},{&quot;url&quot;:&quot;http://localhost:3000/login&quot;,&quot;ΓÇª]
+    - /contact (http://localhost:3000/contact (302) ΓåÆ http://localhost:3000/login (200)) [targetUrl: http://localhost:3000/login, chain: {&quot;sourceUrl&quot;:&quot;http://localhost:3000/contact&quot;,&quot;finalUrl&quot;:&quot;http://localhost:3000/login&quot;,&quot;hops&quot;:[{&quot;url&quot;:&quot;http://localhost:3000/contact&quot;,&quot;statusCode&quot;:302,&quot;type&quot;:&quot;http&quot;},{&quot;url&quot;:&quot;http://localhost:3000/logiΓÇª]
+    - /careers (http://localhost:3000/careers (302) ΓåÆ http://localhost:3000/login (200)) [targetUrl: http://localhost:3000/login, chain: {&quot;sourceUrl&quot;:&quot;http://localhost:3000/careers&quot;,&quot;finalUrl&quot;:&quot;http://localhost:3000/login&quot;,&quot;hops&quot;:[{&quot;url&quot;:&quot;http://localhost:3000/careers&quot;,&quot;statusCode&quot;:302,&quot;type&quot;:&quot;http&quot;},{&quot;url&quot;:&quot;http://localhost:3000/logiΓÇª]
+    - /blog (http://localhost:3000/blog (302) ΓåÆ http://localhost:3000/login (200)) [targetUrl: http://localhost:3000/login, chain: {&quot;sourceUrl&quot;:&quot;http://localhost:3000/blog&quot;,&quot;finalUrl&quot;:&quot;http://localhost:3000/login&quot;,&quot;hops&quot;:[{&quot;url&quot;:&quot;http://localhost:3000/blog&quot;,&quot;statusCode&quot;:302,&quot;type&quot;:&quot;http&quot;},{&quot;url&quot;:&quot;http://localhost:3000/login&quot;,&quot;stΓÇª]
+  </rule>
+  <rule id="links/weak-internal-links" severity="warning" status="warn" docs="https://docs.squirrelscan.com/rules/links/weak-internal-links">
+   12 page(s) have only 1 internal link
+   Items (5/12):
+    - /pricing
+    - /about
+    - /contact
+    - /careers
+    - /blog
+  </rule>
+ </category>
+ <category name="Content" errors="0" warnings="27">
+  <rule id="content/duplicate-title" severity="warning" status="warn" docs="https://docs.squirrelscan.com/rules/content/duplicate-title">
+   1 duplicate title(s) found across 25 pages
+   Items (1):
+    - justlearn (&quot;justlearn...&quot; (25 pages)) [pageCount: 25] (from: /, /login, /register, /pricing, /about; +20 more)
+  </rule>
+  <rule id="content/duplicate-description" severity="warning" status="warn" docs="https://docs.squirrelscan.com/rules/content/duplicate-description">
+   1 duplicate description(s) found across 25 pages
+   Items (1):
+    - explore || learn || build || share (&quot;explore || learn || build || share...&quot; (25 pages)) [pageCount: 25] (from: /, /login, /register, /pricing, /about; +20 more)
+  </rule>
+  <rule id="content/word-count" severity="warning" status="warn" docs="https://docs.squirrelscan.com/rules/content/word-count">
+   Thin content: N words (min N)
+   Pages (5/25): /, /about, /blog, /careers, /categories
+   Items (5/25):
+    - / (Thin content: 205 words (min 300))
+    - /login (Thin content: 16 words (min 300))
+    - /register (Thin content: 14 words (min 300))
+    - /pricing (Thin content: 16 words (min 300))
+    - /about (Thin content: 16 words (min 300))
+  </rule>
+ </category>
+ <category name="Images" errors="0" warnings="3">
+  <rule id="images/dimensions" severity="warning" status="warn" docs="https://docs.squirrelscan.com/rules/images/dimensions">
+   1 image(s) missing width/height (causes CLS)
+   Pages (3): /, /courses, /courses?categories=Web+Development
+   Items (1):
+    - /_next/image?url=https%3A%2F%2Fres.cloudinary.com%2Fdjyzlmzoe%2Fimage%2Fupload%2Fv1772954527%2FJUSTLearn%2F3b7977beedfd76c038270e46029cdeca.avif&amp;w=3840&amp;q=75 | &lt;img src=&quot;http://localhost:3000/_next/image?url=https%3A%2F%2Fres.cloudinary.com%2Fdjyzlmzoe%2Fimage%2Fupload%2Fv1772954527%2FJUSTLearn%2F3b7977beedfd76c038270e46029cdeca.avif&amp;w=3840&amp;q=75&quot; alt=&quot;Web Developement L-1&quot;&gt;
+  </rule>
+ </category>
+ <category name="Performance" errors="6" warnings="185">
+  <rule id="perf/js-file-size" severity="error" status="fail" docs="https://docs.squirrelscan.com/rules/perf/js-file-size">
+   1 JS file(s) exceed 1.0 MB; 2 JS file(s) exceed 250.0 KB
+   Items (3):
+    - /_next/static/chunks/node_modules_next_dist_compiled_2ce9398a._.js [sizeBytes: 1109716, size: 1.1 MB, status: 200, contentType: application/javascript; charset=UTF-8] (from: /, /login, /register, /pricing, /about; +20 more)
+    - /_next/static/chunks/node_modules_next_dist_client_8f19e6fb._.js [sizeBytes: 997850, size: 974.5 KB, status: 200, contentType: application/javascript; charset=UTF-8] (from: /, /login, /register, /pricing, /about; +20 more)
+    - /_next/static/chunks/node_modules_ef55f655._.js [sizeBytes: 991569, size: 968.3 KB, status: 200, contentType: application/javascript; charset=UTF-8] (from: /, /login, /register, /pricing, /about; +20 more)
+  </rule>
+  <rule id="perf/lcp-hints" severity="warning" status="warn" docs="https://docs.squirrelscan.com/rules/perf/lcp-hints">
+   1 potential LCP image(s) without preload
+   Pages (1): /
+   Items (1):
+    - /assets/lottie/heroImg.svg
+  </rule>
+  <rule id="perf/ttfb" severity="warning" status="fail" docs="https://docs.squirrelscan.com/rules/perf/ttfb">
+   Very slow server response (Nms); Slow server response (684ms)
+   Pages (5/6): /, /courses, /courses?categories=Mathematics, /login, /register
+   Items (5/6):
+    - / (Very slow server response (1555ms))
+    - /login (Very slow server response (7902ms))
+    - /register (Very slow server response (8129ms))
+    - /courses (Very slow server response (3033ms))
+    - /courses/cmmgrxnn10001hhcg1qasg6bd (Very slow server response (4957ms))
+  </rule>
+  <rule id="perf/total-byte-weight" severity="warning" status="warn" docs="https://docs.squirrelscan.com/rules/perf/total-byte-weight">
+   Total tracked resources: 3767KB (heavy page)
+  </rule>
+  <rule id="perf/critical-request-chains" severity="warning" status="warn" docs="https://docs.squirrelscan.com/rules/perf/critical-request-chains">
+   N critical request chain(s) found
+   Pages (5/25): /, /about, /blog, /careers, /categories
+   Items (3):
+    - CSS: /_next/static/chunks/%5Broot-of-the-server%5D__a1f75480._.css
+    - JS: /_next/static/chunks/node_modules_next_dist_build_polyfills_polyfill-nomodule.js
+    - CSS: /_next/static/chunks/app_(main)_courses_%5Bid%5D__css_loading_fa44d87f.css
+  </rule>
+  <rule id="perf/duplicate-js" severity="warning" status="warn" docs="https://docs.squirrelscan.com/rules/perf/duplicate-js">
+   N library(s) loaded multiple times
+   Pages (5/25): /, /about, /blog, /careers, /categories
+   Items (5/7):
+    - node (9x)
+    - app (7x)
+    - node (8x)
+    - app (4x)
+    - app (5x)
+  </rule>
+  <rule id="perf/lazy-above-fold" severity="warning" status="warn" docs="https://docs.squirrelscan.com/rules/perf/lazy-above-fold">
+   N above-fold image(s) with lazy loading
+   Pages (5/17): /, /about, /blog, /careers, /categories
+   Items (5/6):
+    - /_next/image?url=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1518770660439-4636190af475%3Fw%3D800%26q%3D80&amp;w=640&amp;q=75
+    - /_next/image?url=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1498050108023-c5249f4df085%3Fw%3D800%26q%3D80&amp;w=640&amp;q=75
+    - https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nodejs/nodejs-original.svg
+    - https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/express/express-original.svg
+    - https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/prisma/prisma-original.svg
+  </rule>
+  <rule id="perf/unminified-js" severity="warning" status="warn" docs="https://docs.squirrelscan.com/rules/perf/unminified-js">
+   8 JavaScript file(s) appear unminified
+   Pages (5/25): /, /about, /blog, /careers, /categories
+   Items (5):
+    - node_modules_next_dist_compiled_2ce9398a._.js (1083.7KB, ~307.7KB savings) [reason: high newlines (1.69%), 236 comments, long function names, formatted code, excessive whitespace]
+    - node_modules_next_dist_client_8f19e6fb._.js (974.5KB, ~340.7KB savings) [reason: high newlines (1.93%), 2419 comments, long function names, formatted code, excessive whitespace]
+    - node_modules_next_dist_0eb1e458._.js (93.8KB, ~28.2KB savings) [reason: high newlines (2.41%), 172 comments, long function names, formatted code, excessive whitespace]
+    - node_modules_%40swc_helpers_cjs_00636ac3._.js (3.4KB, ~0.4KB savings) [reason: high newlines (2.58%), long function names, formatted code, excessive whitespace]
+    - _a894171a._.js (65.3KB, ~35.0KB savings) [reason: high newlines (2.52%), 223 comments, long variable names, long function names, formatted code, excessive whitespace]
+  </rule>
+  <rule id="perf/preconnect" severity="info" status="warn" docs="https://docs.squirrelscan.com/rules/perf/preconnect">
+   Missing preconnect for 1 CDN(s)
+   Pages (5/14): /about, /blog, /careers, /categories, /classes
+   Items (1):
+    - cdn.jsdelivr.net
+  </rule>
+  <rule id="perf/http2" severity="info" status="warn" docs="https://docs.squirrelscan.com/rules/perf/http2">
+   HTTP/2 requires HTTPS
+   Pages (5/25): /, /about, /blog, /careers, /categories
+   Items (5/25):
+    - / (HTTP/2 requires HTTPS)
+    - /login (HTTP/2 requires HTTPS)
+    - /register (HTTP/2 requires HTTPS)
+    - /pricing (HTTP/2 requires HTTPS)
+    - /about (HTTP/2 requires HTTPS)
+  </rule>
+  <rule id="perf/source-maps" severity="info" status="warn" docs="https://docs.squirrelscan.com/rules/perf/source-maps">
+   270 potential source map(s) detected; 1 inline source map(s) found
+   Pages (5/25): /, /about, /blog, /careers, /categories
+   Items (5/11):
+    - /_next/static/chunks/helpers.js.map (from /_next/static/chunks/node_modules_next_dist_compiled_2ce9398a._.js)
+    - /_next/static/chunks/runtime.js.map (from /_next/static/chunks/node_modules_next_dist_compiled_2ce9398a._.js)
+    - /_next/static/chunks/%22 (from /_next/static/chunks/node_modules_next_dist_compiled_2ce9398a._.js)
+    - /_next/static/chunks/node_modules_next_dist_compiled_2ce9398a._.js.map (from /_next/static/chunks/node_modules_next_dist_compiled_2ce9398a._.js)
+    - /_next/static/chunks/app-bootstrap.js.map (from /_next/static/chunks/node_modules_next_dist_client_8f19e6fb._.js)
+  </rule>
+ </category>
+ <category name="Accessibility" errors="131" warnings="89">
+  <rule id="a11y/button-name" severity="error" status="fail" docs="https://docs.squirrelscan.com/rules/a11y/button-name">
+   Buttons without accessible names
+   Pages (5/25): /, /about, /blog, /careers, /categories
+   Items (4):
+    - button.flex
+    - button.lg:hidden
+    - button.absolute
+    - button
+  </rule>
+  <rule id="a11y/duplicate-id-aria" severity="error" status="fail" docs="https://docs.squirrelscan.com/rules/a11y/duplicate-id-aria">
+   1 problematic ID(s) in ARIA attributes
+   Pages (5/9): /courses, /courses?categories=AI+%26+Machine+Learning, /courses?categories=Business+%26+Management, /courses?categories=Data+Science, /courses?categories=Humanities+%26+English
+   Items (1):
+    - &quot;radix-┬½R2b7nbb7l7┬╗&quot; (not found)
+  </rule>
+  <rule id="a11y/aria-command-name" severity="error" status="fail" docs="https://docs.squirrelscan.com/rules/a11y/aria-command-name">
+   N command element(s) without accessible names
+   Pages (5/25): /, /about, /blog, /careers, /categories
+   Items (5):
+    - button[type=&quot;submit&quot;]
+    - button[type=&quot;submit&quot;]
+    - a[href=&quot;/&quot;]
+    - a[href=&quot;/courses&quot;]
+    - button[type=&quot;button&quot;]
+  </rule>
+  <rule id="a11y/aria-hidden-focus" severity="error" status="fail" docs="https://docs.squirrelscan.com/rules/a11y/aria-hidden-focus">
+   8 focusable element(s) inside aria-hidden
+   Pages (5/9): /courses, /courses?categories=AI+%26+Machine+Learning, /courses?categories=Business+%26+Management, /courses?categories=Data+Science, /courses?categories=Humanities+%26+English
+   Items (5/8):
+    - input (self is focusable)
+    - input (self is focusable)
+    - input (self is focusable)
+    - input (self is focusable)
+    - input (self is focusable)
+  </rule>
+  <rule id="a11y/aria-input-field-name" severity="error" status="fail" docs="https://docs.squirrelscan.com/rules/a11y/aria-input-field-name">
+   8 input field(s) without accessible names
+   Pages (5/9): /courses, /courses?categories=AI+%26+Machine+Learning, /courses?categories=Business+%26+Management, /courses?categories=Data+Science, /courses?categories=Humanities+%26+English
+   Items (5/8):
+    - input[type=&quot;checkbox&quot;]
+    - input[type=&quot;checkbox&quot;]
+    - input[type=&quot;checkbox&quot;]
+    - input[type=&quot;checkbox&quot;]
+    - input[type=&quot;checkbox&quot;]
+  </rule>
+  <rule id="a11y/aria-toggle-field-name" severity="error" status="fail" docs="https://docs.squirrelscan.com/rules/a11y/aria-toggle-field-name">
+   8 toggle field(s) without accessible names
+   Pages (5/9): /courses, /courses?categories=AI+%26+Machine+Learning, /courses?categories=Business+%26+Management, /courses?categories=Data+Science, /courses?categories=Humanities+%26+English
+   Items (5/8):
+    - checkbox
+    - checkbox
+    - checkbox
+    - checkbox
+    - checkbox
+  </rule>
+  <rule id="a11y/aria-labels" severity="error" status="fail" docs="https://docs.squirrelscan.com/rules/a11y/aria-labels">
+   N button(s) without accessible names
+   Pages (5/25): /, /about, /blog, /careers, /categories
+   Items (5/12):
+    - flex h-10 w-10 items-center ju
+    - lg:hidden ml-2
+    - absolute inset-y-0 right-0 pr-
+    - button
+    - category-0
+  </rule>
+  <rule id="a11y/form-labels" severity="error" status="fail" docs="https://docs.squirrelscan.com/rules/a11y/form-labels">
+   9 form input(s) without labels
+   Pages (5/9): /courses, /courses?categories=AI+%26+Machine+Learning, /courses?categories=Business+%26+Management, /courses?categories=Data+Science, /courses?categories=Humanities+%26+English
+   Items (5/9):
+    - text
+    - checkbox
+    - checkbox
+    - checkbox
+    - checkbox
+  </rule>
+  <rule id="a11y/color-contrast" severity="warning" status="warn" docs="https://docs.squirrelscan.com/rules/a11y/color-contrast">
+   N potential color contrast issue(s)
+   Pages (5/25): /, /about, /blog, /careers, /categories
+   Items (5/20):
+    - svg with class &quot;tabler-icon tabler-icon-layout...&quot; may have low contrast
+    - div with class &quot;absolute inset-0 -z-10 rounded...&quot; may have low contrast
+    - div with class &quot;relative left-[calc(50%-11rem)...&quot; may have low contrast
+    - p with class &quot;text-muted-foreground max-w-2x...&quot; may have low contrast
+    - p with class &quot;text-muted-foreground...&quot; may have low contrast
+  </rule>
+  <rule id="a11y/landmark-one-main" severity="warning" status="warn" docs="https://docs.squirrelscan.com/rules/a11y/landmark-one-main">
+   Page has no main landmark
+   Pages (5/14): /about, /blog, /careers, /categories, /classes
+  </rule>
+  <rule id="a11y/link-text" severity="warning" status="fail" docs="https://docs.squirrelscan.com/rules/a11y/link-text">
+   2 link(s) with no accessible text; 2 link(s) with generic text
+   Pages (5/11): /, /courses, /courses?categories=AI+%26+Machine+Learning, /courses?categories=Business+%26+Management, /courses?categories=Data+Science
+   Items (4):
+    - / (svg-no-name)
+    - /courses (svg-no-name)
+    - login
+    - register
+  </rule>
+  <rule id="a11y/skip-link" severity="warning" status="warn" docs="https://docs.squirrelscan.com/rules/a11y/skip-link">
+   No bypass mechanism for repetitive content
+   Pages (5/25): /, /about, /blog, /careers, /categories
+  </rule>
+  <rule id="a11y/landmark-regions" severity="info" status="warn" docs="https://docs.squirrelscan.com/rules/a11y/landmark-regions">
+   No &lt;main&gt; landmark found
+   Pages (5/14): /about, /blog, /careers, /categories, /classes
+  </rule>
+ </category>
+ <category name="E-E-A-T" errors="0" warnings="2">
+  <rule id="eeat/author-byline" severity="warning" status="warn" docs="https://docs.squirrelscan.com/rules/eeat/author-byline">
+   No content pages have author attribution
+  </rule>
+  <rule id="eeat/privacy-policy" severity="warning" status="warn" docs="https://docs.squirrelscan.com/rules/eeat/privacy-policy">
+   Privacy policy only linked from 4% of pages
+  </rule>
+ </category>
+</issues>
+</audit>
+
+

@@ -56,7 +56,7 @@ const FilterCourseMobile = ({categories,selectedCategories}) => {
   return (
     <div className="lg:hidden">
       <Sheet>
-        <SheetTrigger>
+        <SheetTrigger aria-label="Toggle filters">
           <Filter className="h-6 w-6" />
         </SheetTrigger>
         <SheetContent side="left">
@@ -76,6 +76,7 @@ const FilterCourseMobile = ({categories,selectedCategories}) => {
                         <Checkbox
                           type="checkbox"
                           id={`category-${optionIdx}`}
+                          aria-label={category?.title || "Category"}
                           onCheckedChange={() => {
                             handleCategoryChange(category?.title);
                           }}

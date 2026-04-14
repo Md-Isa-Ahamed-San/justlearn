@@ -25,6 +25,7 @@ const SearchCourse = ({ defaultValue = "" }) => {
       <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 z-10 h-4 w-4" />
       <Input
         type="text"
+        aria-label="Search courses"
         placeholder="Search courses..."
         defaultValue={defaultValue}
         onChange={(e) => handleSearch(e.target.value)}
