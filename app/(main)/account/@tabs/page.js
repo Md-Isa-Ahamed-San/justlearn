@@ -4,9 +4,9 @@ import ProfileTabs from "./_components/ProfileTabs";
 import { getServerUserData } from "../../../../queries/users";
 export const dynamic = 'force-dynamic';
 export default async function RoleBasedProfile({ searchParams }) {
-  const selectedRole = searchParams?.role;
+  const resolvedSearchParams = await searchParams;
+  const selectedRole = resolvedSearchParams?.role;
 
-  // const { user, userData } = await getServerUserData();
   let serverUserData = null;
   
   try {

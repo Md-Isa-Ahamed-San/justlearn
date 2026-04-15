@@ -16,10 +16,12 @@ export default function PersonalDetailsTab({ userData }) {
         <div className="flex justify-center items-center gap-2"><User className="h-5 w-5 text-primary" />
         Personal Details</div>
         <div className="flex items-center gap-2">
+        {userData?.role && (
         <Badge className={`${getRoleColor(userData?.role)} gap-1 text-sm px-3 py-1`}>
           {getRoleIcon(userData?.role, "h-4 w-4")}
           {userData?.role?.charAt(0).toUpperCase() + userData?.role?.slice(1)}
         </Badge>
+        )}
        
       </div>
           
