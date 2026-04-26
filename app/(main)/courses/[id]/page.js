@@ -11,7 +11,8 @@ const SingleCoursePage = async ({ params }) => {
   const { id } = await params;
 
   // 1. Get session first (extremely fast since it's likely already in Request/Context)
-  const [{ userData }] = await Promise.all([getServerUserData()]);
+  const session = await getServerUserData();
+  const userData = session?.userData;
 
   // 2. Fetch Course Details AND Participation in parallel
   // This avoids Batch 2 waiting for Batch 1 to finish completely
